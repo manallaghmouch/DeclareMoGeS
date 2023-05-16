@@ -19,15 +19,9 @@ class Alphabet:
 
         self.alphabet_ante = {key: self.alphabet[:] for key in keylist_ante} 
         self.alphabet_conse = {key: self.alphabet[:] for key in keylist_conse}
-
-        #Alphabet.alphabet_action = {key: alphabet for key in Alphabet.alphabet_action}
-        #Alphabet.alphabet_reaction = {key: alphabet for key in Alphabet.alphabet_reaction}
   
     def change_alphabet_A(self, constraint, alphabet_A = alphabet_ante):
         match constraint.__class__.__name__:
-            # niet nodig want wordt al uitgesloten door de dependencies
-            # case 'Init':
-            # case 'End':
             # templates that can only occur once with the same action -- delete action
             case 'OneOrMore':
                 action = constraint.get_action()
@@ -40,8 +34,6 @@ class Alphabet:
             case 'AlternateResponse':
                 action = constraint.get_action()
                 alphabet_A[AlternateResponse].remove(str(action)) 
-                # er gaat hier wat mis --> ALLE waardan voor de template worden verwijderdfrom Constraint import *
-                # EN alle actions die overeenkomen worden in de andere lijsten verwijderd
                 return alphabet_A
             case 'AlternatePrecedence':
                 action = constraint.get_action()
@@ -59,7 +51,7 @@ class Alphabet:
                 action = constraint.get_action()
                 alphabet_A[ChainPrecedence].remove(str(action))
                 return alphabet_A
-            case 'ChainSuccession': # ook nog ander scenario toevoegen: chain succession(A,B) en succession(A,B) mogen niet samen voorkomen
+            case 'ChainSuccession': 
                 action = constraint.get_action()
                 alphabet_A[ChainSuccession].remove(str(action))
                 return alphabet_A
@@ -89,10 +81,6 @@ class Alphabet:
 
     def change_alphabet_C(self, constraint, alphabet_C = alphabet_conse):
         match constraint.__class__.__name__:
-            # niet nodig want wordt al uitgesloten door de dependencies
-            # case 'Init':
-            # case 'End':
-            # templates that can only occur once with the same action -- delete action
             # templates that cannot occur together with the same action and reaction
             case 'CoExistence':
                 # delete action and reaction
@@ -116,73 +104,3 @@ class Alphabet:
                 alphabet_C[NotChainSuccession].remove(str(reaction))
                 return alphabet_C             
             case _: return alphabet_C
-
-
-# from Constraint import *
-
-# class Alphabet:
-#     alphabet_ante = None
-#     alphabet_conse = None
-
-#     def __init__(self, alphabet_size, alphabet = []):
-#         alphabet = []
-#         start = ord('a')
-#         for i in range(alphabet_size):
-#             alphabet.append(chr(start + i))
-
-#         # list of constraints that can only occur once with the same antecedent
-#         keylist_ante = [Init, End, OneOrMore, OneAndOnlyOne, CoExistence, RespondedExistence, Response, Precedence, Succession, AlternateResponse, \
-#             AlternatePrecedence, AlternateSuccession, ChainResponse, ChainPrecedence, ChainSuccession, NotCoExistence, NotSuccession, NotChainSuccession]
-
-#         # list of constraints that can only occur once with the same consequent
-
-    
-#         keylist_conse = [CoExistence, RespondedExistence, Response, Precedence, Succession, AlternateResponse, AlternatePrecedence, \
-#             AlternateSuccession, ChainResponse, ChainPrecedence, ChainSuccession, NotCoExistence, NotSuccession, NotChainSuccession]
-
-#         Alphabet.alphabet_ante = {key: alphabet[:] for key in keylist_ante} 
-#         Alphabet.alphabet_conse = {key: alphabet[:] for key in keylist_conse}
-
-#     def change_alphabet_A(self, constraint, alphabet_A = alphabet_ante):
-#         action = constraint.get_action()
-#         if constraint.__class__.__name__ in alphabet_A:
-#             alphabet_A[constraint.__class__.__name__].remove(str(action))
-#         return alphabet_A
-
-#     def change_alphabet_C(self, constraint, alphabet_C = alphabet_conse):
-#         reaction = constraint.get_reaction()
-#         if constraint.__class__.__name__ in alphabet_C:
-#             alphabet_C[constraint.__class__.__name__].remove(str(reaction))
-#         return alphabet_C
-
-
-# class Alphabet:
-#     alphabet_ante = None
-#     alphabet_conse = None
-
-#     def __init__(self, alphabet_size, alphabet = []):
-#         alphabet = []
-#         start = ord('a')
-#         for i in range(alphabet_size):
-#             alphabet.append(chr(start + i))
-
-#         keylist_ante = [Init, End, OneOrMore, OneAndOnlyOne, CoExistence, RespondedExistence, Response, Precedence, Succession, AlternateResponse, \
-#             AlternatePrecedence, AlternateSuccession, ChainResponse, ChainPrecedence, ChainSuccession, NotCoExistence, NotSuccession, NotChainSuccession]
-
-#         keylist_conse = [CoExistence, RespondedExistence, Response, Precedence, Succession, AlternateResponse, AlternatePrecedence, \
-#             AlternateSuccession, ChainResponse, ChainPrecedence, ChainSuccession, NotCoExistence, NotSuccession, NotChainSuccession]
-
-#         Alphabet.alphabet_ante = {key: alphabet[:] for key in keylist_ante} 
-#         Alphabet.alphabet_conse = {key: alphabet[:] for key in keylist_conse}
-
-#     def change_alphabet_A(self, constraint, alphabet_A = alphabet_ante):
-#         action = constraint.get_action()
-#         if constraint.__class__.__name__ in alphabet_A:
-#             alphabet_A[constraint.__class__.__name__].remove(str(action))
-#         return alphabet_A
-
-#     def change_alphabet_C(self, constraint, alphabet_C = alphabet_conse):
-#         reaction = constraint.get_reaction()
-#         if constraint.__class__.__name__ in alphabet_C:
-#             alphabet_C[constraint.__class__.__name__].remove(str(reaction))
-#         return alphabet_C

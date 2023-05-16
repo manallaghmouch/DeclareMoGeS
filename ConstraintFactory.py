@@ -52,7 +52,7 @@ class ConstraintFactory:
                     j += 1
                 else: 
                     n += 1
-                    if n >= 5: 
+                    if n >= 5:  # after 5 subsequent constraints that could not be added to the model, we end the model creation
                         # current_set_size = len(constraint_list)
                         self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                         return constraint_list

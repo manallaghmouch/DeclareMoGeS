@@ -26,7 +26,8 @@ class Templates:
                           Exactly,
                           Existence]
         
-    def change_templates(self, constraint, alphabet):
+    def change_templates(self, constraint, alphabet): # Delete templates drom template_list if there are no templates left: end message 
+        # NOG TOEVOEGEN IN CONSTRAINTFACTORY!!!! INDIEN GEEN TEMPLATES MEER!
         # get alphabets of constraint 
         if constraint.__class__.has_reaction():
             # check both the ante alpha and conse alpha

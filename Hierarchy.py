@@ -2,6 +2,8 @@ from Constraint import *
 from ConstraintList import *
 import random
 
+### NEED TO CHECK THIS!!!
+
 class Hierarchy: 
     """This class defines hierarchies between Declare constraints in terms of specialisation"""
 

@@ -1,5 +1,3 @@
-# import os
-# 'PYTHONPATH' in os.environ
 from black_sat import *
 
 class Constraint:
@@ -15,7 +13,6 @@ class Constraint:
         """
         self.list_action_reaction = list(self.__dict__.items())
         self.action_value = self.list_action_reaction[0][1]
-        # for value in self.__dict__.items():
         return self.action_value
     
     def get_reaction(self):
@@ -102,7 +99,9 @@ class Constraint:
     @classmethod
     def has_n(cls):
         return cls.HAS_N
+    
 
+# Define constraint templates
 
 class End(Constraint):
     HAS_REACTION = False
