@@ -38,6 +38,16 @@ model.specialise_model()
 # model.model_to_ltl()
 
 
+# TEST with black consistency integrated 
+templates = [RespondedExistence]
+weights = [1]
+alphabet_size = 6
+set_size = 2
+
+cf = ConstraintFactory()
+cf.create_consistent_model(alphabet_size, set_size, weights, templates)
+
+
 
 
 # TEST black 
