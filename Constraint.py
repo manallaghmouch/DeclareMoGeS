@@ -75,8 +75,7 @@ class Constraint:
             #     case 'Existence': ###############################
             #         return ''.format(action,n)
         
-
-        else:
+        elif not constraint.__class__.has_reaction():
             action = constraint.get_action()
             match constraint.__class__.__name__:
                 # case 'End': ###############################
@@ -90,6 +89,8 @@ class Constraint:
                 # case 'Absence': 
                 #     return '~F({0})'.format(action)
                 case _: return None
+
+        else: return None 
 
                 
     @classmethod

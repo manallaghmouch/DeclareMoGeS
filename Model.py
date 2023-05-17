@@ -1,4 +1,5 @@
 from Constraint import *
+from Templates import *
 from Alphabet import *
 from ConstraintList import *
 from ConstraintFactory import *
@@ -13,9 +14,10 @@ class Model:
     sigma = alphabet()
     # alpha = Alphabet(alphabet_size)
 
-    def __init__(self, alphabet_size, set_size, weights, templates, filename):
+    def __init__(self, filename, alphabet_size, set_size, weights, templates = []):
+        constraint_templates = Templates(templates).templates
         # self.constraint_list = Model.cf.create_random(alphabet_size, set_size, weights, templates)
-        self.constraint_list = Model.cf.create_consistent_model(alphabet_size, set_size, weights, templates)
+        self.constraint_list = Model.cf.create_consistent_model(alphabet_size, set_size, weights, constraint_templates)
         self.ltl_list = self.model_to_ltl()
 
         self.activities = Alphabet(alphabet_size).alphabet
@@ -42,13 +44,17 @@ class Model:
         pass 
 
     def specialise_model(self,specialized_model=[]): # user can indicate that he wants to keep a part of the initial model
-        # Iterate over each constraint in the model
+        # to empty list if you already specialized once 
+        if specialized_model == []:
+            specialized_model = []
+        else: specialized_model = specialized_model
+
         hierarchy = Hierarchy()
         n_initial_model = self.__len__()
 
         # Add first specialized constraint to specialized model -- Indien er niet gespec kan worden, dan wordt de constraint overgenomen
         if n_initial_model == 0: 
-            return cf.end_model_message("No specialization of initial model could be generated, because initial model is empty.")
+            return Model.cf.end_model_message("No specialization of initial model could be generated, because initial model is empty.")
         else:
             first_specialized_constraint = hierarchy.generate_specialisation_candidate(self.constraint_list[0])
             specialized_model.append(first_specialized_constraint)
@@ -75,20 +81,40 @@ class Model:
             return specialized_model
 
     def has_specialisation_in_model(self, constraint, specialized_model): # In specialized model
+        specialized_model_class = [specialized_constraint.__class__ for specialized_constraint in specialized_model]
         match constraint.__class__.__name__:
             case 'Precedence'|'Response'|'Succession'|'AlternatePrecedence'|'AlternateResponse'|'AlternateSuccession'|'ChainPrecedence'| \
                 'ChainResponse'|'RespondedExistence'|'CoExistence'|'NotSuccession'|'NotChainSuccession'|'Choice':
+
                 candidate_list = Hierarchy.specialisation_candidates[constraint.__class__.__name__]
 
-                specialized_model_class = [specialized_constraint.__class__ for specialized_constraint in specialized_model]
-                return bool(set(candidate_list) & set(specialized_model_class))
+                potential_templates = list(set(candidate_list) & set(specialized_model_class))
+                # has_specialisation = bool(set(candidate_list) & set(specialized_model_class))
 
-                # for candidate_constraint in candidate_list:
-                #     if candidate_constraint in specialized_model:
-                #         return True
-                #     else:
+                if potential_templates == []: 
+                    return False 
+                else: 
+                    # [specialized_constraint for specialized_constraint.__class__.__name__ in potential_templates]
 
-                #         return False 
+                    # test 
+
+                    # potential_templates = [ChainResponse]
+                    # specialized_model = [ChainResponse("a","b"),Response("b","c"),ChainResponse("b","c")] 
+                    # specialized_model_class = [i.__class__ for i in specialized_model]
+                    # constraint = Response("a","b")
+
+                    potential_constraints = []
+                    for i in range(len(potential_templates)): 
+                        for j in range(len(specialized_model)):
+                            if potential_templates[i] == specialized_model_class[j]:
+                                potential_constraints.append(specialized_model[j])
+
+                    potential_constraints_str = [str(i) for i in potential_constraints]
+
+                    action = constraint.get_action()
+                    reaction = constraint.get_reaction()
+
+                    return any("{0},{1}".format(action,reaction) in i for i in potential_constraints_str)
 
             case 'Absence'|'Existence':
                 return True 
@@ -113,3 +139,15 @@ class Model:
         output = Model.constraintlist.list_to_decl_extension(constraint_list, activities)
         file.write(str(output))
         file.close()
+
+# Test
+
+alphabet_size = 10 
+set_size = 4
+weights = [1]
+templates = [RespondedExistence]
+
+## juist: filename van plaats veranderd
+model = Model("model6.decl", alphabet_size, set_size, weights, templates)
+model.constraint_list
+model.specialise_model()

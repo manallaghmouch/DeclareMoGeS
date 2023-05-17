@@ -34,36 +34,39 @@ class ConstraintFactory:
         constraint = Constraint()
         constraint_list = ConstraintList()
         ltl_list = LtlList()
-
-        template = Templates()
         alphabet = Alphabet(alphabet_size)
+        t = Templates(templates)
 
         n = 0 # number of times that a constraint was consequently not added to the model
         j = 0
         while j < set_size:
-            potential_constraint = self.create_one_constraint_alphabet(templates, weights, alphabet)
-            ltl_constraint = constraint.declare_to_ltl(potential_constraint, self.sigma)
-            if ltl_constraint != None: 
-                if (ltl_list.check_consistency(ltl_constraint, ltl_list, self.sigma) and ltl_list.check_redundancy(ltl_constraint, ltl_list, self.sigma)):
-                    constraint_list.append(potential_constraint)
-                    ltl_list.append(ltl_constraint)
-                    template.change_templates(potential_constraint, alphabet)
-                    n = 0
-                    j += 1
-                else: 
-                    n += 1
-                    if n >= 5:  # after 5 subsequent constraints that could not be added to the model, we end the model creation
+            if templates != []:
+                potential_constraint = self.create_one_constraint_alphabet(templates, weights, alphabet)
+                ltl_constraint = constraint.declare_to_ltl(potential_constraint, self.sigma)
+                if ltl_constraint != None: # omdat ik momenteel nog geen LTL expressie heb voor iedere constraint template 
+                    if (ltl_list.check_consistency(ltl_constraint, ltl_list, self.sigma) and ltl_list.check_redundancy(ltl_constraint, ltl_list, self.sigma)):
+                        constraint_list.append(potential_constraint)
+                        ltl_list.append(ltl_constraint)
+                        t.change_templates(potential_constraint, alphabet)
+                        n = 0
+                        j += 1
+                    else: 
+                        n += 1
+                        if n >= 5:  # after 5 subsequent constraints that could not be added to the model, we end the model creation
+                            # current_set_size = len(constraint_list)
+                            self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                            return constraint_list
+                        else: continue 
+                else:
+                    n += 1 
+                    if n >= 5: 
                         # current_set_size = len(constraint_list)
                         self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                         return constraint_list
-                    else: continue 
+                    else: continue
             else:
-                n += 1 
-                if n >= 5: 
-                    # current_set_size = len(constraint_list)
-                    self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                    return constraint_list
-                else: continue
+                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.") 
+                return constraint_list
         return constraint_list
 
     def create_one_constraint_alphabet(self, templates, weights, alphabet, n=1):

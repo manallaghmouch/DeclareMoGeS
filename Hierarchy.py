@@ -84,7 +84,7 @@ class Hierarchy:
                 elif specialized_template == Existence: 
                     specialized_constraint = specialized_template(action,n + random.randint(1,4))
 
-            case _: # Voor alle andere cases dupliceren we de constraint (vb. init)
+            case _: # Voor alle andere cases nemen we dezelfde constraint over in het specialized_model (vb. init)
                 specialized_constraint = constraint                        
 
         return specialized_constraint

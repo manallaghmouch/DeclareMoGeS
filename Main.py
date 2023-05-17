@@ -32,7 +32,8 @@ set_size = 4
 weights = [1]
 templates = [RespondedExistence]
 
-model = Model(3, set_size, weights, templates, "model6.decl")
+## juist: filename van plaats veranderd
+model = Model("model6.decl", 3, set_size, weights, templates)
 model.constraint_list
 model.specialise_model()
 # model.model_to_ltl()

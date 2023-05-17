@@ -3,8 +3,9 @@ from Alphabet  import *
 
 class Templates:
     
-    def __init__(self):
-        self.templates = [Init, 
+    def __init__(self, templates):
+        if templates == []: 
+            self.templates = [Init, 
                           End, 
                           OneOrMore, 
                           OneAndOnlyOne, 
@@ -25,7 +26,8 @@ class Templates:
                           Absence, 
                           Exactly,
                           Existence]
-        
+        else: self.templates = templates
+
     def change_templates(self, constraint, alphabet): # Delete templates drom template_list if there are no templates left: end message 
         # NOG TOEVOEGEN IN CONSTRAINTFACTORY!!!! INDIEN GEEN TEMPLATES MEER!
         # get alphabets of constraint 
