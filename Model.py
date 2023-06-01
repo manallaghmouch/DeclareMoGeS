@@ -11,13 +11,13 @@ class Model:
     cf = ConstraintFactory()
     constraint = Constraint()
     constraintlist = ConstraintList()
-    sigma = alphabet()
+    sigma = alphabet() # needed for satisfyability and redundancy checks with black_sat
     # alpha = Alphabet(alphabet_size)
 
-    def __init__(self, filename, alphabet_size, set_size, weights, templates = []):
+    def __init__(self, filename, alphabet_size, set_size, weights, consequent_not_adding, templates = []):
         constraint_templates = Templates(templates).templates
         # self.constraint_list = Model.cf.create_random(alphabet_size, set_size, weights, templates)
-        self.constraint_list = Model.cf.create_consistent_model(alphabet_size, set_size, weights, constraint_templates)
+        self.constraint_list = Model.cf.create_consistent_model(alphabet_size, set_size, weights, consequent_not_adding, constraint_templates)
         self.ltl_list = self.model_to_ltl()
 
         self.activities = Alphabet(alphabet_size).alphabet
@@ -43,7 +43,7 @@ class Model:
     def count_rules(self):
         pass 
 
-    def specialise_model(self,specialized_model=[]): # user can indicate that he wants to keep a part of the initial model
+    def specialise_model(self,specialization_percentage,specialized_model=[]): # user can indicate that he wants to keep a part of the initial model
         # to empty list if you already specialized once 
         if specialized_model == []:
             specialized_model = []
@@ -56,27 +56,32 @@ class Model:
         if n_initial_model == 0: 
             return Model.cf.end_model_message("No specialization of initial model could be generated, because initial model is empty.")
         else:
-            first_specialized_constraint = hierarchy.generate_specialisation_candidate(self.constraint_list[0])
-            specialized_model.append(first_specialized_constraint)
-            
-            for index in range(1, n_initial_model):
+            # first_specialized_constraint = hierarchy.generate_specialisation_candidate(self.constraint_list[0])
+            # specialized_model.append(first_specialized_constraint)
+            for index in range(0, n_initial_model):
                 initial_constraint = self.constraint_list[index]
-                if self.has_specialisation_in_model(initial_constraint, specialized_model):
-                        random_choice = random.randint(0, 1) # Op dit moment 50% kans -- CHANGE: user input 
-                        if random_choice==1:
-                            specialized_constraint = hierarchy.generate_specialisation_candidate(initial_constraint)
-                            
-                            if not self.constraint_list.contains_constraint(specialized_constraint, specialized_model): # Indien template niet onderhevig aan dependency, 
-                                # dan toevoegen
-                                specialized_model.append(specialized_constraint)
-                            else: 
-                                pass
-                        else: 
-                            pass
-                else:
-                    specialized_constraint = hierarchy.generate_specialisation_candidate(initial_constraint)
-                    if not self.constraint_list.contains_constraint(specialized_constraint, specialized_model): 
-                        specialized_model.append(specialized_constraint)                
+                if hierarchy.can_be_specialised(initial_constraint): # toevoegen in Hierarchy
+                    # if self.has_specialisation_in_model(initial_constraint, specialized_model): ### dit kan weg vanwege redundancy???!!!
+                    #     random_choice = random.randint(0, 1) # Op dit moment 50% kans -- CHANGE: user input 
+                    #     if random.random() < specialization_percentage:
+                    #         specialized_constraint = hierarchy.generate_specialisation_candidate(initial_constraint)
+                    #         if not self.constraint_list.contains_constraint(specialized_constraint, specialized_model): # Indien template niet onderhevig aan dependency, 
+                    #             specialized_model.append(specialized_constraint)
+                    #         else: pass # do nothing if the specialized constraint is already present in the specialized_model (to avoid duplications)
+                    #     # random choice is niet 1: do nothing
+                    #     else: pass 
+                    # else: 
+                    if random.random() < specialization_percentage:
+                        specialized_constraint = hierarchy.generate_specialisation_candidate(initial_constraint)
+                        if not self.constraint_list.contains_constraint(specialized_constraint, specialized_model): 
+                            specialized_model.append(specialized_constraint)
+                        else: pass
+                    else:
+                        specialized_model.append(initial_constraint)
+                else: # cannot be specialized 
+                    if not self.constraint_list.contains_constraint(initial_constraint, specialized_model): 
+                        specialized_model.append(initial_constraint)       
+                    else: pass         
     
             return specialized_model
 
@@ -134,6 +139,12 @@ class Model:
 
         return slv.solve(xi,f,True)
     
+    def get_inconsistency(self):
+        return Model.cf.get_inconsistency()
+
+    def get_redundancy(self):
+        return Model.cf.get_redundancy()
+    
     def save_model(self, constraint_list, activities, filename):
         file = open(filename, 'w') # overwrites if file already exists
         output = Model.constraintlist.list_to_decl_extension(constraint_list, activities)
@@ -142,12 +153,43 @@ class Model:
 
 # Test
 
-alphabet_size = 10 
-set_size = 4
-weights = [1]
-templates = [RespondedExistence]
+# specialization_perc = 0
 
-## juist: filename van plaats veranderd
-model = Model("model6.decl", alphabet_size, set_size, weights, templates)
-model.constraint_list
-model.specialise_model()
+# templates = []
+# weights = [
+#     0.2,
+#     0,
+#     0,
+#     0,
+#     0.5,
+#     0,
+#     0,
+#     0.1,
+#     0,
+#     0,
+#     0,
+#     0,
+#     0,
+#     0,
+#     0.5,
+#     0,
+#     0,
+#     0,
+#     0,
+#     0,
+#     0]
+
+# alphabet_size = 3
+# set_size = 5
+# templates = [End]
+# weights = [1]
+# ## juist: filename van plaats veranderd
+# model = Model("model6.decl", alphabet_size, set_size, weights, templates)
+# model.constraint_list
+# model.get_inconsistency()
+# model.get_redundancy()
+
+# model.specialise_model(specialization_perc)
+
+# model = Model('decl6.decl', alphabet_size=10,set_size=5,weights=[1],consequent_not_adding=10,templates=[ChainResponse])
+# model.constraint_list

@@ -7,8 +7,6 @@ class Templates:
         if templates == []: 
             self.templates = [Init, 
                           End, 
-                          OneOrMore, 
-                          OneAndOnlyOne, 
                           CoExistence, 
                           RespondedExistence, 
                           Response, 
@@ -25,12 +23,12 @@ class Templates:
                           NotChainSuccession,
                           Absence, 
                           Exactly,
-                          Existence]
+                          Existence,
+                          Choice,
+                          ExclusiveChoice]
         else: self.templates = templates
 
     def change_templates(self, constraint, alphabet): # Delete templates drom template_list if there are no templates left: end message 
-        # NOG TOEVOEGEN IN CONSTRAINTFACTORY!!!! INDIEN GEEN TEMPLATES MEER!
-        # get alphabets of constraint 
         if constraint.__class__.has_reaction():
             # check both the ante alpha and conse alpha
             constraint_actions = alphabet.alphabet_ante.get(constraint.__class__)
@@ -38,9 +36,45 @@ class Templates:
             if ((len(constraint_actions) == 0) or (len(constraint_reactions) == 0)):
                 # delete constraint template from templates
                 self.templates.remove(constraint.__class__)
+                return constraint.__class__
             else: pass 
         else: 
             constraint_actions = alphabet.alphabet_ante.get(constraint.__class__)
             if (len(constraint_actions) == 0):
                 self.templates.remove(constraint.__class__)
             else: pass  
+
+    def delete_template_weight(self, deleted_template, initial_templates, weights):
+        template_index = initial_templates.index(deleted_template)
+        del weights[template_index]
+
+
+### test delete template weight
+
+# weights = [
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1,
+#     1]
+
+# t = Templates([])
+# deleted_template = Init
+
+# t.delete_template_weight(deleted_template,t.templates,weights)

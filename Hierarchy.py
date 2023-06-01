@@ -2,8 +2,6 @@ from Constraint import *
 from ConstraintList import *
 import random
 
-### NEED TO CHECK THIS!!!
-
 class Hierarchy: 
     """This class defines hierarchies between Declare constraints in terms of specialisation"""
 
@@ -24,15 +22,6 @@ class Hierarchy:
         'Choice': [ExclusiveChoice],
         'Absence': [Absence, Exactly],
         'Existence': [Existence, Exactly]
-        #str(Absence(constraint.get_action, constraint.get_n)): []
-        # Absence(n+1): [Absence(n), Exactly(n)],
-        # Absence(n+2): [Absence(n), Absence(n+1), Exactly(n+1)],
-        # Absence(n+K): [Absence(n-K), Absence(n-K+1), Exactly(n-K+1), Exactly(n)],
-        # Exactly(n): [],
-        # Exactly(n+1): []
-        # Existence(n+1): [Exactly(n+1)]
-        # Existence(n): [Exactly(n), Existence(n+1), Existence(n+2), ...]
-        # RespondedExistence(b,a): [CoExistence, Precedence, AlternatePrecedence, ChainPrecedence, Succession, AlternateSuccession, CHainSuccession]
     }
 
     def __init__(self):
@@ -85,9 +74,19 @@ class Hierarchy:
                     specialized_constraint = specialized_template(action,n + random.randint(1,4))
 
             case _: # Voor alle andere cases nemen we dezelfde constraint over in het specialized_model (vb. init)
-                specialized_constraint = constraint                        
+                specialized_constraint = False                  
 
         return specialized_constraint
+    
+    def can_be_specialised(self, constraint):
+        if self.generate_specialisation_candidate(constraint) == False:
+            return False
+        else: return True
+            
+
+hier = Hierarchy()
+hier.can_be_specialised(Init("a"))   
+
 
 # Test
 # hierarchy = Hierarchy()

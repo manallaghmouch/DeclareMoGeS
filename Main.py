@@ -2,154 +2,138 @@ import numpy as np
 import pandas as pd
 from random import randrange
 from Model import *
+# import importlib
+# importlib.reload(Model)
+# from Model import *
+import time
 
-# create normative model
-Model1 = Model(alphabet_size=1, number_of_constraints=5)
-Model1.create_model()
-print(Model1.model)
+### Tests ###
+
+### 1. Create random Declare model with all templates ###
+
+# empty dataframe 
+
+result1 = {
+    "scenario": [],
+    "run": [],
+    "# constraints (asked)": [],
+    "# constraint (actual)": [],
+    "# activities": [],
+    "conseq_not_adding_constraints": [],
+    "# inconsistencies": [],
+    "# redundancies": [],
+    "execution time (seconds)": []
+}
+
+#load data into a DataFrame object:
+df3 = pd.DataFrame(result1)
+
+# baseline parameters
+templates = [] # all templates
+weights = [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1]
+
+# Scenario 1
+# stop_after = 20 # constraints
+# i = 0
+# for alphabet_size in range(5,20):
+#     for set_size in range(5,20):
+#         for j in range(50):
+
+#             # start time
+#             st = time.time()
+
+#             # main program
+#             model = Model("model6.decl", alphabet_size, set_size, weights, stop_after, templates)
+#             model.constraint_list
+
+#             # wait for 3 seconds
+#             # time.sleep(3)
+#             print(model.constraint_list)
+
+#             # get the end time
+#             et = time.time()
+
+#             # get the execution time
+#             elapsed_time_sec = et - st
+#             print('Execution time:', elapsed_time_sec, 'seconds')
+
+#             res = et - st
+#             final_res = res * 1000
+#             print('Execution time:', final_res, 'milliseconds')
+        
+#             df.loc[i] = [str(alphabet_size) + " - " + str(set_size), 
+#                          str(i), 
+#                          set_size, 
+#                          model.__len__(), 
+#                          alphabet_size, 
+#                          stop_after, 
+#                          model.get_inconsistency(), 
+#                          model.get_redundancy(), 
+#                          elapsed_time_sec]
+
+#             i += 1
 
 
-Model2 = Model(alphabet_size=10, number_of_constraints=5)
+stop_after = 20 # constraints
+i = 0
+for alphabet_size in range(5,30):
+    for set_size in range(5,50):
+        for j in range(100):
 
-# Test: Create an instance of ConstraintFactory and generate a random list of constraints given the number of constraints
-cf = ConstraintFactory()
-constraint_list = cf.create_random(5, [Response,Init], ["A", "B", "C", "D"])
-print(constraint_list)
+            # start time
+            st = time.time()
 
-# Create a normative model that consists of a set of random constraints that use a given alphabet of activities
-Model1.create_model()
-model2 = Model2.create_model()
-print(Model1.model)
-print(model2)
+            # main program
+            model = Model("model6.decl", alphabet_size, set_size, weights, stop_after, templates)
+            model.constraint_list
 
+            print(model.constraint_list)
 
-# TESTS MODEL
+            # end time
+            et = time.time()
 
-# Test
+            # get the execution time
+            elapsed_time_sec = et - st
+            print('Execution time:', elapsed_time_sec, 'seconds')
 
-alphabet_size = 10 ### er gaat iets mis met de alphabet size 
-set_size = 4
-weights = [1]
-templates = [RespondedExistence]
+            res = et - st
+            final_res = res * 1000
+            print('Execution time:', final_res, 'milliseconds')
+            
+            df3.loc[i] = [str(alphabet_size) + " - " + str(set_size), 
+                        str(i), 
+                        set_size, 
+                        model.__len__(), 
+                        alphabet_size, 
+                        stop_after, 
+                        model.get_inconsistency(), 
+                        model.get_redundancy(), 
+                        elapsed_time_sec]
 
-## juist: filename van plaats veranderd
-model = Model("model6.decl", 3, set_size, weights, templates)
-model.constraint_list
-model.specialise_model()
-# model.model_to_ltl()
+            i += 1
 
-
-# TEST with black consistency integrated 
-templates = [RespondedExistence]
-weights = [1]
-alphabet_size = 6
-set_size = 2
-
-cf = ConstraintFactory()
-cf.create_consistent_model(alphabet_size, set_size, weights, templates)
-
-
-
-
-# TEST black 
-# templates = [RespondedExistence]
-# weights = [1]
-# alphabet_size = 6
-# set_size = 2
-
-# sigma = alphabet()
-
-# model = Model(alphabet_size, set_size, weights, templates)
-# d = sigma.proposition('d')
-# d = sigma.proposition('d')
-# potential_constraint = implies(F(d), F(d))
-
-# model.check_consistency_constraint(potential_constraint)
-
-# # previous black test 
-# model = Model(alphabet_size, set_size, templates, weights)
-# model.constraint_list
-# model.ltl_list
-
-# sigma = alphabet()
-
-# model_ltl = model.ltl_list 
-
-# unpacked = sigma.top() # means True -- starting value 
-# for c in model_ltl:
-#     unpacked = unpacked & c
-
-# d = sigma.proposition('d')
-# d = sigma.proposition('d')
-# potential_constraint = implies(F(d), F(d))
-
-# slv = solver()
-# xi = scope(sigma)
-
-# f = unpacked & potential_constraint # test consistency by testing the conjunction
-# f = implies(unpacked,potential_constraint) # test redundancy by testing implication
-
-# slv.solve(xi,~f,True)
-
-# Test
-# set_size = 15
-# alphabet_size = 5
-# templates = [
-#     Init, 
-#     End, 
-#     OneOrMore, 
-#     OneAndOnlyOne, 
-#     CoExistence, 
-#     RespondedExistence, 
-#     Response, 
-#     Precedence, 
-#     Succession, 
-#     AlternateResponse, 
-#     AlternatePrecedence, 
-#     AlternateSuccession, 
-#     ChainResponse, 
-#     ChainPrecedence, 
-#     ChainSuccession,
-#     NotCoExistence, 
-#     NotSuccession, 
-#     NotChainSuccession,
-#     Absence, 
-#     Exactly,
-#     Existence]
-# # the probabilities are initial probabilities 
-# weights = [
-#     0.2,
-#     0,
-#     0,
-#     0,
-#     0.5,
-#     0,
-#     0,
-#     0.1,
-#     0,
-#     0,
-#     0,
-#     0,
-#     0,
-#     0,
-#     0.5,
-#     0,
-#     0,
-#     0,
-#     0,
-#     0,
-#     0]
-
-# model = Model(alphabet_size, set_size, templates, weights)
-# print(model)
-
-# model.specialise_model()
-
-#specialisation_model = Model.specialise_model(model, model)
-
-# model = Model()
-# initial_model = model.create_model(set_size, templates, weights, alphabet_size)
-# model.specialise_model(initial_model, 1)
+print(df3)
 
 
 

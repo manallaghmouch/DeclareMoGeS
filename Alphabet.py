@@ -11,10 +11,10 @@ class Alphabet:
         for i in range(alphabet_size):
             self.alphabet.append(chr(start + i))
 
-        keylist_ante = [Init, End, OneOrMore, OneAndOnlyOne, CoExistence, RespondedExistence, Response, Precedence, Succession, AlternateResponse, \
+        keylist_ante = [Choice, ExclusiveChoice, Init, End, Absence, Existence, Exactly, CoExistence, RespondedExistence, Response, Precedence, Succession, AlternateResponse, \
             AlternatePrecedence, AlternateSuccession, ChainResponse, ChainPrecedence, ChainSuccession, NotCoExistence, NotSuccession, NotChainSuccession]
 
-        keylist_conse = [CoExistence, RespondedExistence, Response, Precedence, Succession, AlternateResponse, AlternatePrecedence, \
+        keylist_conse = [Choice, ExclusiveChoice, CoExistence, RespondedExistence, Response, Precedence, Succession, AlternateResponse, AlternatePrecedence, \
             AlternateSuccession, ChainResponse, ChainPrecedence, ChainSuccession, NotCoExistence, NotSuccession, NotChainSuccession]
 
         self.alphabet_ante = {key: self.alphabet[:] for key in keylist_ante} 
@@ -23,13 +23,13 @@ class Alphabet:
     def change_alphabet_A(self, constraint, alphabet_A = alphabet_ante):
         match constraint.__class__.__name__:
             # templates that can only occur once with the same action -- delete action
-            case 'OneOrMore':
+            case 'Existence':
                 action = constraint.get_action()
-                alphabet_A[OneOrMore].remove(str(action))
+                alphabet_A[Existence].remove(str(action))
                 return alphabet_A
-            case 'OneAndOnlyOne':
+            case 'Exactly':
                 action = constraint.get_action()
-                alphabet_A[OneAndOnlyOne].remove(str(action))
+                alphabet_A[Exactly].remove(str(action))
                 return alphabet_A
             case 'AlternateResponse':
                 action = constraint.get_action()
