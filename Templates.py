@@ -37,44 +37,14 @@ class Templates:
                 # delete constraint template from templates
                 self.templates.remove(constraint.__class__)
                 return constraint.__class__
-            else: pass 
+            else: return None 
         else: 
             constraint_actions = alphabet.alphabet_ante.get(constraint.__class__)
             if (len(constraint_actions) == 0):
                 self.templates.remove(constraint.__class__)
-            else: pass  
+            else: return None   
 
     def delete_template_weight(self, deleted_template, initial_templates, weights):
         template_index = initial_templates.index(deleted_template)
         del weights[template_index]
-
-
-### test delete template weight
-
-# weights = [
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1,
-#     1]
-
-# t = Templates([])
-# deleted_template = Init
-
-# t.delete_template_weight(deleted_template,t.templates,weights)
+        del initial_templates[template_index]

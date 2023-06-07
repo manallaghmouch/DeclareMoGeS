@@ -71,6 +71,7 @@ class Constraint:
                 case 'ExclusiveChoice':
                     return (F(action) | F(reaction)) & ~(F(action) & F(reaction))
                 case _: return None 
+        
         elif not constraint.__class__.has_reaction():
             action = sigma.proposition(constraint.get_action())
             match constraint.__class__.__name__:
@@ -85,6 +86,7 @@ class Constraint:
                 case 'Existence': 
                     return F(action)
                 case _: return None
+        
         else: return None 
                 
     @classmethod
