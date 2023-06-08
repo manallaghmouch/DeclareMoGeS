@@ -107,6 +107,6 @@ fields2 = [str(argv[1]) + "-" + str(argv[2]),
             specialized50,
             specialized30]
 
-with open("model-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), 'a') as f:
+with open(r"model-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), 'a') as f:
     writer = csv.writer(f)
     writer.writerow(fields2)
