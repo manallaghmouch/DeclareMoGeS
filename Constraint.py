@@ -390,9 +390,9 @@ class Absence(Constraint):
     action = None
     reaction = None
     n = None
-    def __init__(self, action, n):
+    def __init__(self, action):
         self.action = action
-        self.n = n 
+        # self.n = n 
     def check(self): 
         pass
     def __repr__(self):

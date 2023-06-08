@@ -31,19 +31,19 @@ class LtlList(list):
         # st = time.time()
         print("consistency check...")
 
-        n = 0
-        result = slv.solve(xi,f,True,10)
-        while (result == None): 
-            n+=1
-            result = slv.solve(xi,f,True,10)
-            if result != None:
-                return result
-            elif n > 10: 
-                return None
-            else: continue
+        # n = 0
+        result = slv.solve(xi,f,True,60)
+        # while (result == None): 
+        #     n+=1
+        #     result = slv.solve(xi,f,True,20)
+        #     if result != None:
+        #         return result
+        #     elif n > 10: 
+        #         return None
+        #     else: continue
 
         # et = time.time()
-        print("end consistency check")
+        # print("end consistency check")
 
         # elapsed_time_sec = et - st
         # print('Execution time:', elapsed_time_sec, 'seconds')
@@ -63,19 +63,19 @@ class LtlList(list):
         # st = time.time()
         print("redundancy check...")
             
-        n = 0
-        result = slv.solve(xi,~f,True,10)
-        while (result == None): 
-            n+=1
-            result = slv.solve(xi,~f,True,10)
-            if result != None:
-                return result
-            elif n > 10: 
-                return None
-            else: continue
+        # n = 0
+        result = slv.solve(xi,~f,True,60)
+        # while (result == None): 
+        #     n+=1
+        #     result = slv.solve(xi,~f,True,20)
+        #     if result != None:
+        #         return result
+        #     elif n > 10: 
+        #         return None
+        #     else: continue
 
         # et = time.time()
-        print("end redundancy check")
+        # print("end redundancy check")
 
         # elapsed_time_sec = et - st
         # print('Execution time:', elapsed_time_sec, 'seconds')

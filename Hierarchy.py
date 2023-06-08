@@ -20,8 +20,8 @@ class Hierarchy:
         'NotSuccession': [NotCoExistence],
         'NotChainSuccession': [NotSuccession],
         'Choice': [ExclusiveChoice],
-        'Absence': [Absence, Exactly],
-        'Existence': [Existence, Exactly]
+        # 'Absence': [Exactly], # Absence
+        'Existence': [Exactly] # Existence
     }
 
     def __init__(self):
@@ -52,26 +52,32 @@ class Hierarchy:
                 else: 
                     specialized_constraint = specialized_template(reaction, action)
 
-            case 'Absence':
-                action = constraint.get_action()
-                n = constraint.get_n()
-                specialized_template = random.choice(Hierarchy.specialisation_candidates[constraint.__class__.__name__])
-                if specialized_template == Absence:
-                    specialized_constraint = random.choice([specialized_template(action,n),specialized_template(action,n - random.randint(1,n-1))])
-                elif specialized_template == Exactly: 
-                    if n>1: 
-                        specialized_constraint = specialized_template(action, n-1) # instellen dat het nooit minder dan 1 mag zijn!
-                    else:
-                        pass # nog aanpassen -- nu slaat die dit geval over -- idealiter wil ik dat er dan opnieuw een specialisatie wordt gegenereerd
-
             case 'Existence':
                 action = constraint.get_action()
-                n = constraint.get_n()
+                # n = constraint.get_n()
                 specialized_template = random.choice(Hierarchy.specialisation_candidates[constraint.__class__.__name__])
-                if specialized_template == Exactly:
-                    specialized_constraint = specialized_template(action,n)
-                elif specialized_template == Existence: 
-                    specialized_constraint = specialized_template(action,n + random.randint(1,4))
+                specialized_constraint = specialized_template(action)
+
+            # case 'Absence':
+            #     action = constraint.get_action()
+            #     # n = constraint.get_n()
+            #     specialized_template = random.choice(Hierarchy.specialisation_candidates[constraint.__class__.__name__])
+            #     if specialized_template == Absence:
+            #         specialized_constraint = random.choice([specialized_template(action,n),specialized_template(action,n - random.randint(1,n-1))])
+            #     elif specialized_template == Exactly: 
+            #         if n>1: 
+            #             specialized_constraint = specialized_template(action, n-1) # instellen dat het nooit minder dan 1 mag zijn!
+            #         else:
+            #             pass # nog aanpassen -- nu slaat die dit geval over -- idealiter wil ik dat er dan opnieuw een specialisatie wordt gegenereerd
+
+            # case 'Existence':
+            #     action = constraint.get_action()
+            #     # n = constraint.get_n()
+            #     specialized_template = random.choice(Hierarchy.specialisation_candidates[constraint.__class__.__name__])
+            #     if specialized_template == Exactly:
+            #         specialized_constraint = specialized_template(action,n)
+            #     elif specialized_template == Existence: 
+            #         specialized_constraint = specialized_template(action,n + random.randint(1,4))
 
             case _: # Voor alle andere cases nemen we dezelfde constraint over in het specialized_model (vb. init)
                 specialized_constraint = False                  
@@ -81,11 +87,7 @@ class Hierarchy:
     def can_be_specialised(self, constraint):
         if self.generate_specialisation_candidate(constraint) == False:
             return False
-        else: return True
-            
-
-hier = Hierarchy()
-hier.can_be_specialised(Init("a"))   
+        else: return True 
 
 
 # Test

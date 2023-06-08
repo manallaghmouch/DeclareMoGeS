@@ -103,6 +103,9 @@ class Model:
     def get_redundancy(self):
         return Model.cf.get_redundancy()
     
+    def get_time_exceeded(self):
+        return Model.cf.get_time_exceeded()
+    
     def save_model(self, constraint_list, activities, filename):
         file = open(filename, 'w') # overwrite if file already exists
         output = Model.constraintlist.list_to_decl_extension(constraint_list, activities)

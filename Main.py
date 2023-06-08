@@ -1,106 +1,112 @@
 from Model import *
 import pandas as pd
 import time
-import csv   
+import csv 
+from sys import argv
+
+# set_size = argv[1]
+# alphabet_size = argv[2]
+
+# Files
+time_file = time.time()
 
 result1 = {
     "run": [],
     "scenario": [],
-    "set_size_given": [],
-    "set_size_actual": [],
+    "len_given": [],
+    "len_actual": [],
     "alphabet_size": [],
     "stop_after": [],
     "inconsistencies": [],
     "redundancies": [],
-    "exec_time_sec": [],
+    "exec_time_generator": [],
+    "time_exceeded": [],
+    "exec_time100": [],
+    "exec_time70": [],
+    "exec_time50": [],
+    "exec_time30": []
 }
-df3 = pd.DataFrame(result1)
-df3.to_csv("result1-20.csv", sep=',')
+df1 = pd.DataFrame(result1)
+df1.to_csv("execution-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), sep=',')
 
 result2 = {
     "run": [],
     "set_size": [],
     "alphabet_size": [],
-    "end_model": []
+    "generated_model": [],
+    "specialized100": [],
+    "specialized70": [],
+    "specialized50": [],
+    "specialized30": [],
 }
-df4 = pd.DataFrame(result2)
-df4.to_csv("result2-20.csv", sep=',')
+df2 = pd.DataFrame(result2)
+df2.to_csv("model-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), sep=',')
 
-# baseline parameters
+# Baseline parameters
 stop_after = 20 # constraints
 templates = [] # all templates
-weights = [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1]
+weights = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 
-i = 0
-for set_size in range(20,51):
-    for alphabet_size in range(5,31):
-        for j in range(1):
+# Main program
+st_g = time.time()
+model = Model("model6.decl", alphabet_size=argv[2], set_size=argv[1], weights=weights, stop_after=stop_after, templates=templates)
+et_g = time.time()
 
-            # start time
-            st = time.time()
+# specialization scenarios
+st_s100 = time.time()
+specialized100 = model.specialise_model(1)
+et_s100 = time.time() 
 
-            # main program
-            try: 
-                model = Model("model6.decl", alphabet_size, set_size, weights, stop_after, templates)
-            
-                # end time
-                et = time.time()
+st_s70 = time.time()
+specialized70 = model.specialise_model(0.7)
+et_s70 = time.time() 
 
-                # get the execution time
-                elapsed_time_sec = et - st
-                print('Execution time model:', elapsed_time_sec, 'seconds')
+st_s50 = time.time()
+specialized50 = model.specialise_model(0.5)
+et_s50 = time.time() 
 
-                res = et - st
-                final_res = res * 1000
-                # print('Execution time:', final_res, 'milliseconds')
-                
-                fields1 = [i, 
-                            str(set_size) + " - " + str(alphabet_size), 
-                            set_size, 
-                            model.__len__(), 
-                            alphabet_size, 
-                            stop_after, 
-                            model.get_inconsistency(), 
-                            model.get_redundancy(), 
-                            elapsed_time_sec]
-                
-                with open(r'result1-20.csv', 'a') as f:
-                    writer = csv.writer(f)
-                    writer.writerow(fields1)
-                
-                fields2 = [i, 
-                            set_size, 
-                            alphabet_size, 
-                            str(model.constraint_list)]
-                
-                with open(r'result2-20.csv', 'a') as f:
-                    writer = csv.writer(f)
-                    writer.writerow(fields2)
-            
-            except Exception as err:
-                # end time
-                with open("error.txt", 'a') as file:
-                    f.write(str(err))
+st_s30 = time.time()
+specialized30 = model.specialise_model(0.3)
+et_s30 = time.time() 
 
-            i += 1
+# get the execution time
+exec_time_generator = et_g - st_g
+exec_time100 = et_s100 - st_s100
+exec_time70 = et_s70 - st_s70
+exec_time50 = et_s50 - st_s50
+exec_time30 = et_s30 - st_s30
+
+# print('Execution time generator:', exec_time_generator, 'seconds')
+# print('Execution time specializer:', exec_time_specializer, 'seconds')
+
+fields1 = [str(argv[1]) + "-" + str(argv[2]), 
+            argv[1], 
+            model.__len__(), 
+            argv[2], 
+            stop_after, 
+            model.get_inconsistency(), 
+            model.get_redundancy(), 
+            exec_time_generator,
+            model.get_time_exceeded(),
+            exec_time100,
+            exec_time70,
+            exec_time50,
+            exec_time30
+            ]
+
+with open(r"model-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), 'a') as f:
+    writer = csv.writer(f)
+    writer.writerow(fields1)
+
+fields2 = [str(argv[1]) + "-" + str(argv[2]), 
+            argv[1], 
+            argv[2], 
+            model.constraint_list,
+            specialized100,
+            specialized70,
+            specialized50,
+            specialized30]
+
+with open("model-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), 'a') as f:
+    writer = csv.writer(f)
+    writer.writerow(fields2)

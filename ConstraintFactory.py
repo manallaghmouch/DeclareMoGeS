@@ -13,6 +13,7 @@ class ConstraintFactory:
 
     inconsistent_constraint = 0
     redundant_constraint = 0
+    time_exceeded = 0
     
     def __init__(self):
         pass
@@ -50,6 +51,7 @@ class ConstraintFactory:
 
         self.inconsistent_constraint = 0
         self.redundant_constraint = 0
+        self.time_exceeded = 0
 
         n = 0 # number of times that a constraint was consequently not added to the model
         j = 0
@@ -84,22 +86,10 @@ class ConstraintFactory:
                             # self.get_inconsistency()
                             # self.get_redundancy()  
                             # print(constraint_list)                          
-                            return constraint_list
+                            return ["model differs from input", constraint_list]
                         else: continue 
 
                     elif (consistency == True and redundancy == False):
-                        n += 1
-                        self.inconsistent_constraint +=1
-
-                        if n >= consequent_not_adding:  
-                            # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                            # self.get_inconsistency()
-                            # self.get_redundancy()
-                            # print(constraint_list)
-                            return constraint_list
-                        else: continue 
-
-                    elif (consistency == False and redundancy == True):
                         n += 1
                         self.redundant_constraint +=1
 
@@ -108,11 +98,31 @@ class ConstraintFactory:
                             # self.get_inconsistency()
                             # self.get_redundancy()
                             # print(constraint_list)
-                            return constraint_list
+                            return ["model differs from input", constraint_list]
+                        else: continue 
+
+                    elif (consistency == False and redundancy == True):
+                        n += 1
+                        self.inconsistent_constraint +=1
+                        if n >= consequent_not_adding:  
+                            # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                            # self.get_inconsistency()
+                            # self.get_redundancy()
+                            # print(constraint_list)
+                            return ["model differs from input", constraint_list]
                         else: continue 
 
                     elif (consistency == None or redundancy == None):
-                        return ["time exceeded",constraint_list]
+                        n += 1
+                        self.time_exceeded += 1
+                        if n >= consequent_not_adding:  
+                            # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                            # self.get_inconsistency()
+                            # self.get_redundancy()
+                            # print(constraint_list)
+                            return ["model differs from input",constraint_list]
+                        else: continue
+                        
                         # return constraint_list 
 
                 else: 
@@ -153,11 +163,12 @@ class ConstraintFactory:
                 constraint = None ##### AANPASSEN --> In dit geval is één van de alphabets leeg 
                 return None
 
-        elif template_class.has_n():
-            constraint = template_class(action = random.choice(alpha_A.get(template_class)), n = random.randint(1,n)) # ik heb nu voor n gekozen van 1 tot 5
-            alphabet.change_alphabet_A(constraint, alpha_A)
-            alphabet.change_alphabet_C(constraint, alpha_C)
-            return constraint
+        ####################################
+        # elif template_class.has_n():
+        #     constraint = template_class(action = random.choice(alpha_A.get(template_class)), n = random.randint(1,n)) # ik heb nu voor n gekozen van 1 tot 5
+        #     alphabet.change_alphabet_A(constraint, alpha_A)
+        #     alphabet.change_alphabet_C(constraint, alpha_C)
+        #     return constraint
 
         else: 
             if len(alpha_A.get(template_class)) != 0:
@@ -171,11 +182,14 @@ class ConstraintFactory:
         print(message)
 
     def get_inconsistency(self):
-        print("inconsistent_constraints: " + str(self.inconsistent_constraint))
+        # print("inconsistent_constraints: " + str(self.inconsistent_constraint))
         return self.inconsistent_constraint
 
     def get_redundancy(self):
-        print("redundant_constraints: " + str(self.redundant_constraint))
+        # print("redundant_constraints: " + str(self.redundant_constraint))
         return self.redundant_constraint
+    
+    def get_time_exceeded(self):
+        return self.time_exceeded
 
 
