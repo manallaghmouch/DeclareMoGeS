@@ -37,55 +37,55 @@ class Constraint:
             action = sigma.proposition(constraint.get_action())
             reaction = sigma.proposition(constraint.get_reaction())
 
-            match constraint.__class__.__name__:
-                case 'RespondedExistence':
-                    return implies(F(action), F(reaction))
-                case 'CoExistence':
-                    return iff(F(action),F(reaction))
-                case 'Response':
-                    return G(implies(action,F(reaction)))
-                case 'Precedence':
-                    return U(~reaction,action) | G(~reaction)
-                case 'Succession':
-                    return G(implies(action,F(reaction))) & U(~reaction,action) | G(~reaction)
-                case 'AlternateResponse':
-                    return G(implies(action, X(U(~action,reaction))))
-                case 'AlternatePrecedence': 
-                    return (U(~reaction,action) | G(~reaction)) & G(implies(reaction, X((U(~reaction,action) | G(~reaction)))))
-                case 'AlternateSuccession':
-                    return G(implies(action, X(U(~action,reaction)))) & (U(~reaction,action) | G(~reaction)) & G(implies(reaction, X((U(~reaction,action) | G(~reaction)))))
-                case 'ChainResponse':
-                    return G(implies(action, X(reaction)))
-                case 'ChainPrecedence':
-                    return G(implies(X(reaction), action))
-                case 'ChainSuccession':
-                    return G(implies(action,X(reaction)) & G(implies(X(reaction),action)))
-                case 'NotCoExistence':
-                    return ~(iff(F(action),F(reaction)))
-                case 'NotSuccession':
-                    return ~(G(implies(action,F(reaction))) & U(~reaction,action) | G(~reaction))
-                case 'NotChainSuccession':
-                    return ~(G(implies(action,X(reaction)) & G(implies(X(reaction),action))))
-                case 'Choice':
-                    return F(action) | F(reaction)
-                case 'ExclusiveChoice':
-                    return (F(action) | F(reaction)) & ~(F(action) & F(reaction))
-                case _: return None 
+            if constraint.__class__.__name__ == 'RespondedExistence':
+                return implies(F(action), F(reaction))
+            elif constraint.__class__.__name__ == 'CoExistence':
+                return iff(F(action),F(reaction))
+            elif constraint.__class__.__name__ == 'Response':
+                return G(implies(action,F(reaction)))
+            elif constraint.__class__.__name__ == 'Precedence':
+                return U(~reaction,action) | G(~reaction)
+            elif constraint.__class__.__name__ == 'Succession':
+                return G(implies(action,F(reaction))) & U(~reaction,action) | G(~reaction)
+            elif constraint.__class__.__name__ == 'AlternateResponse':
+                return G(implies(action, X(U(~action,reaction))))
+            elif constraint.__class__.__name__ == 'AlternatePrecedence': 
+                return (U(~reaction,action) | G(~reaction)) & G(implies(reaction, X((U(~reaction,action) | G(~reaction)))))
+            elif constraint.__class__.__name__ == 'AlternateSuccession':
+                return G(implies(action, X(U(~action,reaction)))) & (U(~reaction,action) | G(~reaction)) & G(implies(reaction, X((U(~reaction,action) | G(~reaction)))))
+            elif constraint.__class__.__name__ == 'ChainResponse':
+                return G(implies(action, X(reaction)))
+            elif constraint.__class__.__name__ == 'ChainPrecedence':
+                return G(implies(X(reaction), action))
+            elif constraint.__class__.__name__ == 'ChainSuccession':
+                return G(implies(action,X(reaction)) & G(implies(X(reaction),action)))
+            elif constraint.__class__.__name__ == 'NotCoExistence':
+                return ~(iff(F(action),F(reaction)))
+            elif constraint.__class__.__name__ == 'NotSuccession':
+                return ~(G(implies(action,F(reaction))) & U(~reaction,action) | G(~reaction))
+            elif constraint.__class__.__name__ == 'NotChainSuccession':
+                return ~(G(implies(action,X(reaction)) & G(implies(X(reaction),action))))
+            elif constraint.__class__.__name__ == 'Choice':
+                return F(action) | F(reaction)
+            elif constraint.__class__.__name__ == 'ExclusiveChoice':
+                return (F(action) | F(reaction)) & ~(F(action) & F(reaction))
+            else:
+                return None 
         
         elif not constraint.__class__.has_reaction():
             action = sigma.proposition(constraint.get_action())
-            match constraint.__class__.__name__:
-                case 'End': 
-                    return F(~X(self.sigma.top()) & action)
-                case 'Init':
-                    return action
-                case 'Absence': 
-                    return ~(F(action))
-                case 'Exactly': 
-                    return F(action & X(~F(action))) 
-                case 'Existence': 
-                    return F(action)
-                case _: return None
+            if constraint.__class__.__name__ == 'End':
+                return F(~X(self.sigma.top()) & action)
+            elif constraint.__class__.__name__ == 'Init':
+                return action
+            elif constraint.__class__.__name__ == 'Absence': 
+                return ~(F(action))
+            elif constraint.__class__.__name__ == 'Exactly': 
+                return F(action & X(~F(action))) 
+            elif constraint.__class__.__name__ == 'Existence': 
+                return F(action)
+            else: 
+                return None
         
         else: return None 
                 
