@@ -49,7 +49,7 @@ weights = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 
 # Main program
 st_g = time.time()
-model = Model("model6.decl", alphabet_size=argv[2], set_size=argv[1], weights=weights, consequent_not_adding=stop_after, templates=templates)
+model = Model("model6.decl", alphabet_size=int(argv[2]), set_size=int(argv[1]), weights=weights, consequent_not_adding=stop_after, templates=templates)
 et_g = time.time()
 
 # specialization scenarios
