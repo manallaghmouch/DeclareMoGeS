@@ -94,7 +94,7 @@ fields1 = [str(argv[1]) + "-" + str(argv[2]),
             exec_time30
             ]
 
-with open(r"model-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), 'a') as f:
+with open(r"execution-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), 'a') as f:
     writer = csv.writer(f)
     writer.writerow(fields1)
 
