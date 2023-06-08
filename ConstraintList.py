@@ -16,15 +16,15 @@ class ConstraintList(list):
             return True
         else:
             constraint_list_str = [str(x) for x in constraint_list]
-            match constraint.__class__.__name__:
-                # templates that can only occur once in the model
-                case 'Init':
-                    startswith_ls = [x.startswith('Init') for x in constraint_list_str]
-                    return ConstraintList.check_if_exists(self, True, startswith_ls)
-                case 'End':
-                    startswith_ls = [x.startswith('End') for x in constraint_list_str]
-                    return ConstraintList.check_if_exists(self, True, startswith_ls)               
-                case _: return False
+            if constraint.__class__.__name__ == 'Init':
+                # templates that can only occur once in the model    
+                startswith_ls = [x.startswith('Init') for x in constraint_list_str]
+                return ConstraintList.check_if_exists(self, True, startswith_ls)
+            elif constraint.__class__.__name__ == 'End':
+                startswith_ls = [x.startswith('End') for x in constraint_list_str]
+                return ConstraintList.check_if_exists(self, True, startswith_ls)               
+            else: 
+                return False
 
     def list_to_decl_extension(self, constraint_list, activities):
         output_activities = ""

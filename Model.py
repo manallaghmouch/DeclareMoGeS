@@ -68,34 +68,45 @@ class Model:
 
     def has_specialisation_in_model(self, constraint, specialized_model): # In specialized model
         specialized_model_class = [specialized_constraint.__class__ for specialized_constraint in specialized_model]
-        match constraint.__class__.__name__:
-            case 'Precedence'|'Response'|'Succession'|'AlternatePrecedence'|'AlternateResponse'|'AlternateSuccession'|'ChainPrecedence'| \
-                'ChainResponse'|'RespondedExistence'|'CoExistence'|'NotSuccession'|'NotChainSuccession'|'Choice':
+        if constraint.__class__.__name__ == 'Precedence' or \
+           constraint.__class__.__name__ == 'Response' or \
+           constraint.__class__.__name__ == 'Succession' or \
+           constraint.__class__.__name__ == 'AlternatePrecedence' or \
+           constraint.__class__.__name__ == 'AlternateResponse' or \
+           constraint.__class__.__name__ == 'AlternateSuccession' or \
+           constraint.__class__.__name__ == 'ChainPrecedence' or \
+           constraint.__class__.__name__ == 'ChainResponse' or \
+           constraint.__class__.__name__ == 'RespondedExistence' or \
+           constraint.__class__.__name__ == 'CoExistence' or \
+           constraint.__class__.__name__ == 'NotSuccession' or \
+           constraint.__class__.__name__ == 'NotChainSuccession' or \
+           constraint.__class__.__name__ == 'Choice':
 
-                candidate_list = Hierarchy.specialisation_candidates[constraint.__class__.__name__]
+            candidate_list = Hierarchy.specialisation_candidates[constraint.__class__.__name__]
 
-                potential_templates = list(set(candidate_list) & set(specialized_model_class))
+            potential_templates = list(set(candidate_list) & set(specialized_model_class))
 
-                if potential_templates == []: 
-                    return False 
-                else: 
-                    potential_constraints = []
-                    for i in range(len(potential_templates)): 
-                        for j in range(len(specialized_model)):
-                            if potential_templates[i] == specialized_model_class[j]:
-                                potential_constraints.append(specialized_model[j])
+            if potential_templates == []: 
+                return False 
+            else: 
+                potential_constraints = []
+                for i in range(len(potential_templates)): 
+                    for j in range(len(specialized_model)):
+                        if potential_templates[i] == specialized_model_class[j]:
+                            potential_constraints.append(specialized_model[j])
 
-                    potential_constraints_str = [str(i) for i in potential_constraints]
+                potential_constraints_str = [str(i) for i in potential_constraints]
 
-                    action = constraint.get_action()
-                    reaction = constraint.get_reaction()
+                action = constraint.get_action()
+                reaction = constraint.get_reaction()
 
-                    return any("{0},{1}".format(action,reaction) in i for i in potential_constraints_str)
+                return any("{0},{1}".format(action,reaction) in i for i in potential_constraints_str)
 
-            case 'Absence'|'Existence':
-                return True 
+        elif constraint.__class__.__name__ == 'Absence' or constraint.__class__.__name__ == 'Existence':
+            return True 
 
-            case _: return False 
+        else: 
+            return False 
     
     def get_inconsistency(self):
         return Model.cf.get_inconsistency()
