@@ -14,6 +14,7 @@ class ConstraintFactory:
     inconsistent_constraint = 0
     redundant_constraint = 0
     time_exceeded = 0
+    model_differs = 0
     
     def __init__(self):
         pass
@@ -52,6 +53,7 @@ class ConstraintFactory:
         self.inconsistent_constraint = 0
         self.redundant_constraint = 0
         self.time_exceeded = 0
+        self.model_differs = 0
 
         n = 0 # number of times that a constraint was consequently not added to the model
         j = 0
@@ -85,8 +87,9 @@ class ConstraintFactory:
                             # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
                             # self.get_redundancy()  
-                            # print(constraint_list)                          
-                            return ["model differs from input", constraint_list]
+                            # print(constraint_list) 
+                            self.model_differs = 1                         
+                            return constraint_list
                         else: continue 
 
                     elif (consistency == True and redundancy == False):
@@ -98,7 +101,8 @@ class ConstraintFactory:
                             # self.get_inconsistency()
                             # self.get_redundancy()
                             # print(constraint_list)
-                            return ["model differs from input", constraint_list]
+                            self.model_differs = 1
+                            return constraint_list
                         else: continue 
 
                     elif (consistency == False and redundancy == True):
@@ -109,7 +113,8 @@ class ConstraintFactory:
                             # self.get_inconsistency()
                             # self.get_redundancy()
                             # print(constraint_list)
-                            return ["model differs from input", constraint_list]
+                            self.model_differs = 1
+                            return constraint_list
                         else: continue 
 
                     elif (consistency == None or redundancy == None):
@@ -120,7 +125,8 @@ class ConstraintFactory:
                             # self.get_inconsistency()
                             # self.get_redundancy()
                             # print(constraint_list)
-                            return ["model differs from input",constraint_list]
+                            self.model_differs = 1
+                            return constraint_list
                         else: continue
                         
                         # return constraint_list 
@@ -139,8 +145,9 @@ class ConstraintFactory:
                 # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.") 
                 # self.get_inconsistency()
                 # self.get_redundancy()   
-                # print(constraint_list)             
-                return ["no templates left", constraint_list]
+                # print(constraint_list) 
+                self.model_differs = 1            
+                return constraint_list
             
         # self.get_inconsistency()
         # self.get_redundancy()
@@ -192,4 +199,6 @@ class ConstraintFactory:
     def get_time_exceeded(self):
         return self.time_exceeded
 
+    def get_model_differs(self):
+        return self.model_differs
 

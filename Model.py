@@ -106,6 +106,9 @@ class Model:
     def get_time_exceeded(self):
         return Model.cf.get_time_exceeded()
     
+    def get_model_differs(self):
+        return Model.cf.get_model_differs()
+    
     def save_model(self, constraint_list, activities, filename):
         file = open(filename, 'w') # overwrite if file already exists
         output = Model.constraintlist.list_to_decl_extension(constraint_list, activities)

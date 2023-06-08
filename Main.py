@@ -19,6 +19,7 @@ result1 = {
     "stop_after": [],
     "inconsistencies": [],
     "redundancies": [],
+    "model_differs": [],
     "exec_time_generator": [],
     "time_exceeded": [],
     "exec_time100": [],
@@ -49,7 +50,7 @@ weights = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 
 # Main program
 st_g = time.time()
-model = Model("model6.decl", alphabet_size=argv[2], set_size=argv[1], weights=weights, consequent_not_adding=stop_after, templates=templates)
+model = Model("model6.decl", alphabet_size=int(argv[2]), set_size=int(argv[1]), weights=weights, consequent_not_adding=stop_after, templates=templates)
 et_g = time.time()
 
 # specialization scenarios
@@ -86,6 +87,7 @@ fields1 = [str(argv[1]) + "-" + str(argv[2]),
             stop_after, 
             model.get_inconsistency(), 
             model.get_redundancy(), 
+            model.get_model_differs(),
             exec_time_generator,
             model.get_time_exceeded(),
             exec_time100,
