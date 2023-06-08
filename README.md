@@ -1,2 +1,2 @@
-# DeclareGneratorSpecializer
+# DeclareGeneratorSpecializer
  
