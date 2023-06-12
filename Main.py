@@ -11,7 +11,6 @@ from sys import argv
 time_file = time.time()
 
 result1 = {
-    "run": [],
     "scenario": [],
     "len_given": [],
     "len_actual": [],
@@ -28,10 +27,10 @@ result1 = {
     "exec_time30": []
 }
 df1 = pd.DataFrame(result1)
-df1.to_csv("execution-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), sep=',')
+df1.to_csv("execution-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), sep=',',index=False)
 
 result2 = {
-    "run": [],
+    "scenario": [],
     "set_size": [],
     "alphabet_size": [],
     "generated_model": [],
@@ -41,7 +40,7 @@ result2 = {
     "specialized30": [],
 }
 df2 = pd.DataFrame(result2)
-df2.to_csv("model-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), sep=',')
+df2.to_csv("model-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), sep=',',index=False)
 
 # Baseline parameters
 stop_after = 20 # constraints
@@ -80,7 +79,7 @@ exec_time30 = et_s30 - st_s30
 # print('Execution time generator:', exec_time_generator, 'seconds')
 # print('Execution time specializer:', exec_time_specializer, 'seconds')
 
-fields1 = [str(argv[1]) + "-" + str(argv[2]), 
+fields1 = [str(str(argv[1]) + "-" + str(argv[2])), 
             argv[1], 
             model.__len__(), 
             argv[2], 
