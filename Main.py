@@ -79,7 +79,7 @@ exec_time30 = et_s30 - st_s30
 # print('Execution time generator:', exec_time_generator, 'seconds')
 # print('Execution time specializer:', exec_time_specializer, 'seconds')
 
-fields1 = [str(str(argv[1]) + "-" + str(argv[2])), 
+fields1 = [str(str(argv[1]) + "--" + str(argv[2])), 
             argv[1], 
             model.__len__(), 
             argv[2], 
@@ -99,7 +99,7 @@ with open(r"execution-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), 'a') a
     writer = csv.writer(f)
     writer.writerow(fields1)
 
-fields2 = [str(argv[1]) + "-" + str(argv[2]), 
+fields2 = [str(str(argv[1]) + "--" + str(argv[2])), 
             argv[1], 
             argv[2], 
             model.constraint_list,
