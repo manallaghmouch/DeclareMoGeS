@@ -18,7 +18,7 @@ class LtlList(list):
 
         return G(f)        
 
-    def check_consistency(self, constraint, ltl_list, sigma):
+    def check_consistency(self, constraint, ltl_list, sigma, time_out):
         unpacked = sigma.top()
         for c in ltl_list:
             unpacked = unpacked & c
@@ -32,7 +32,7 @@ class LtlList(list):
         print("consistency check...")
 
         # n = 0
-        result = slv.solve(xi,f,True,60)
+        result = slv.solve(xi,f,True,time_out)
         # while (result == None): 
         #     n+=1
         #     result = slv.solve(xi,f,True,20)
@@ -50,7 +50,7 @@ class LtlList(list):
         
         return result
 
-    def check_redundancy(self, constraint, ltl_list, sigma):
+    def check_redundancy(self, constraint, ltl_list, sigma, time_out):
         unpacked = sigma.top()
         for c in ltl_list:
             unpacked = unpacked & c
@@ -64,7 +64,7 @@ class LtlList(list):
         print("redundancy check...")
             
         # n = 0
-        result = slv.solve(xi,~f,True,60)
+        result = slv.solve(xi,~f,True,time_out)
         # while (result == None): 
         #     n+=1
         #     result = slv.solve(xi,~f,True,20)

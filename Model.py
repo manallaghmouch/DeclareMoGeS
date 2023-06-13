@@ -14,10 +14,10 @@ class Model:
     constraintlist = ConstraintList()
     sigma = alphabet() # needed for satisfyability and redundancy checks with black_sat
 
-    def __init__(self, filename, alphabet_size, set_size, weights, consequent_not_adding, templates = []):
+    def __init__(self, filename, alphabet_size, set_size, weights, consequent_not_adding, time_out, templates = []):
         constraint_templates = Templates(templates).templates
 
-        self.constraint_list = Model.cf.create_consistent_model(alphabet_size, set_size, weights, consequent_not_adding, constraint_templates)
+        self.constraint_list = Model.cf.create_consistent_model(alphabet_size, set_size, weights, consequent_not_adding, constraint_templates, time_out)
         
         # # Turn back on after experiments
         # self.ltl_list = self.model_to_ltl()

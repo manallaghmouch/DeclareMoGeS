@@ -27,7 +27,7 @@ result1 = {
     "exec_time30": []
 }
 df1 = pd.DataFrame(result1)
-df1.to_csv("execution-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), sep=',',index=False)
+df1.to_csv("execution-{0}-{1}-timeout{2}-{3}.csv".format(argv[1],argv[2],argv[3],time_file), sep=',',index=False)
 
 result2 = {
     "scenario": [],
@@ -40,7 +40,7 @@ result2 = {
     "specialized30": [],
 }
 df2 = pd.DataFrame(result2)
-df2.to_csv("model-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), sep=',',index=False)
+df2.to_csv("model-{0}-{1}-timeout{2}-{3}.csv".format(argv[1],argv[2],argv[3],time_file), sep=',',index=False)
 
 # Baseline parameters
 stop_after = 20 # constraints
@@ -49,7 +49,7 @@ weights = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 
 # Main program
 st_g = time.time()
-model = Model("model6.decl", alphabet_size=int(argv[2]), set_size=int(argv[1]), weights=weights, consequent_not_adding=stop_after, templates=templates)
+model = Model("model6.decl", alphabet_size=int(argv[2]), set_size=int(argv[1]), weights=weights, consequent_not_adding=stop_after, time_out=int(argv[3]), templates=templates)
 et_g = time.time()
 
 # specialization scenarios

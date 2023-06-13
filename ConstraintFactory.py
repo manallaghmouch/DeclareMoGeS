@@ -19,41 +19,20 @@ class ConstraintFactory:
     def __init__(self):
         pass
     
-    def create_consistent_model(self, alphabet_size, set_size, weights, consequent_not_adding, templates):
+    def create_consistent_model(self, alphabet_size, set_size, weights, consequent_not_adding, templates, time_out):
         constraint = Constraint()
         constraint_list = ConstraintList()
         ltl_list = LtlList()
         alphabet = Alphabet(alphabet_size)
         t = Templates(templates)
         initial_templates = copy.deepcopy(t.templates)
-        # initial_templates = [Init, 
-        #                   End, 
-        #                   CoExistence, 
-        #                   RespondedExistence, 
-        #                   Response, 
-        #                   Precedence, 
-        #                   Succession, 
-        #                   AlternateResponse, 
-        #                   AlternatePrecedence, 
-        #                   AlternateSuccession, 
-        #                   ChainResponse, 
-        #                   ChainPrecedence, 
-        #                   ChainSuccession,
-        #                   NotCoExistence, 
-        #                   NotSuccession, 
-        #                   NotChainSuccession,
-        #                   Absence, 
-        #                   Exactly,
-        #                   Existence,
-        #                   Choice,
-        #                   ExclusiveChoice]
 
         ltl_list.append(ltl_list.add_first_ltl(alphabet.alphabet,self.sigma))
 
         self.inconsistent_constraint = 0
         self.redundant_constraint = 0
         self.time_exceeded = 0
-        self.model_differs = 0
+        self.model_differs = 0 # salver took longer than 1 minute 
 
         n = 0 # number of times that a constraint was consequently not added to the model
         j = 0
@@ -65,8 +44,8 @@ class ConstraintFactory:
 
                 if potential_constraint != None: 
                     ltl_constraint = constraint.declare_to_ltl(potential_constraint, self.sigma)
-                    consistency = ltl_list.check_consistency(ltl_constraint, ltl_list, self.sigma)
-                    redundancy = ltl_list.check_redundancy(ltl_constraint, ltl_list, self.sigma)                                 
+                    consistency = ltl_list.check_consistency(ltl_constraint, ltl_list, self.sigma, time_out)
+                    redundancy = ltl_list.check_redundancy(ltl_constraint, ltl_list, self.sigma, time_out)                                 
 
                     if (consistency == True and redundancy == True):
                         constraint_list.append(potential_constraint)
@@ -95,7 +74,6 @@ class ConstraintFactory:
                     elif (consistency == True and redundancy == False):
                         n += 1
                         self.redundant_constraint +=1
-
                         if n >= consequent_not_adding:  
                             # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
