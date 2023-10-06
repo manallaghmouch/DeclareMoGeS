@@ -29,7 +29,7 @@ class LtlList(list):
         f = unpacked & constraint # test consistency by testing the conjunction
         
         # st = time.time()
-        print("consistency check...")
+        # print("consistency check...")
 
         # n = 0
         result = slv.solve(xi,f,True,time_out)
@@ -61,7 +61,7 @@ class LtlList(list):
         f = implies(unpacked,constraint) # test redundancy by testing the negation of the implication
 
         # st = time.time()
-        print("redundancy check...")
+        # print("redundancy check...")
             
         # n = 0
         result = slv.solve(xi,~f,True,time_out)

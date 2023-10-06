@@ -31,7 +31,7 @@ class ConstraintFactory:
 
         self.inconsistent_constraint = 0
         self.redundant_constraint = 0
-        self.time_exceeded = 0
+        self.time_exceeded = 0 
         self.model_differs = 0 # salver took longer than 1 minute 
 
         n = 0 # number of times that a constraint was consequently not added to the model
@@ -40,7 +40,7 @@ class ConstraintFactory:
         while j < set_size:
             if templates != []:
                 potential_constraint = self.create_one_constraint_alphabet(t.templates, weights, alphabet)
-                print("potential_constraint created: " + str(potential_constraint))
+                # print("potential_constraint created: " + str(potential_constraint))
 
                 if potential_constraint != None: 
                     ltl_constraint = constraint.declare_to_ltl(potential_constraint, self.sigma)
@@ -63,7 +63,7 @@ class ConstraintFactory:
                         self.inconsistent_constraint +=1
                         self.redundant_constraint +=1
                         if n >= consequent_not_adding: 
-                            # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                            self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
                             # self.get_redundancy()  
                             # print(constraint_list) 
@@ -75,7 +75,7 @@ class ConstraintFactory:
                         n += 1
                         self.redundant_constraint +=1
                         if n >= consequent_not_adding:  
-                            # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                            self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
                             # self.get_redundancy()
                             # print(constraint_list)
@@ -87,7 +87,7 @@ class ConstraintFactory:
                         n += 1
                         self.inconsistent_constraint +=1
                         if n >= consequent_not_adding:  
-                            # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                            self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
                             # self.get_redundancy()
                             # print(constraint_list)
@@ -99,7 +99,7 @@ class ConstraintFactory:
                         n += 1
                         self.time_exceeded += 1
                         if n >= consequent_not_adding:  
-                            # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                            self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
                             # self.get_redundancy()
                             # print(constraint_list)
@@ -112,7 +112,7 @@ class ConstraintFactory:
                 else: 
                     n += 1 
                     if n >= consequent_not_adding: 
-                        # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                        self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                         # self.get_inconsistency()
                         # self.get_redundancy()     
                         # print(constraint)                   
@@ -120,7 +120,7 @@ class ConstraintFactory:
                     else: continue
             
             else:
-                # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.") 
+                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.") 
                 # self.get_inconsistency()
                 # self.get_redundancy()   
                 # print(constraint_list) 
@@ -129,7 +129,7 @@ class ConstraintFactory:
             
         # self.get_inconsistency()
         # self.get_redundancy()
-        print(constraint_list)
+        # print(constraint_list)
         return constraint_list
 
     def create_one_constraint_alphabet(self, templates, weights, alphabet, n=1):

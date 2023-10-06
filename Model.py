@@ -19,10 +19,9 @@ class Model:
 
         self.constraint_list = Model.cf.create_consistent_model(alphabet_size, set_size, weights, consequent_not_adding, constraint_templates, time_out)
         
-        # # Turn back on after experiments
-        # self.ltl_list = self.model_to_ltl()
-        # self.activities = Alphabet(alphabet_size).alphabet
-        # self.file = self.save_model(self.constraint_list, self.activities, filename) 
+        self.ltl_list = self.model_to_ltl()
+        self.activities = Alphabet(alphabet_size).alphabet
+        self.file = self.save_model(self.constraint_list, self.activities, filename) 
 
     def __len__(self): # get the number of constraints in the generated model
         return len(self.constraint_list)
