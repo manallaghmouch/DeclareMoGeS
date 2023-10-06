@@ -48,7 +48,7 @@ model1 = **Model**(filename="model1.decl",
                time_out=60
                templates = [])
 
-model1.constraint_list
+model1.**constraint_list**
 
 model1.**specialise_model**(1)
 model1.**specialise_model**(0.8)
