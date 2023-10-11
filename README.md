@@ -24,10 +24,10 @@ model_name \
                     set_size *- integer* \
                     weights *- list* - should be as long as list of templates \
                     consequent_not_adding *- integer* \
-                    time_out *- integer* - *in seconds* \
+                    time_out *- integer, in seconds* \
                     templates = [])                         *list* - if left empty, all templates are considered (21 templates in total)
 
-* To show the model, you need to call **constraint_list** *
+To show the model, you need to call **constraint_list**
 
 model_name.**constraint_list** 
 
