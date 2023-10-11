@@ -27,7 +27,7 @@ model_name \
                     time_out *- integer* - in seconds
                     templates = [])                         *list* - if left empty, all templates are considered (21 templates in total)
 
-*To show the model, you need to call (**constraint_list**)*
+*To show the model, you need to call **constraint_list**
 
 model_name.**constraint_list** 
 
