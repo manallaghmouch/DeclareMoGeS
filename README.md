@@ -8,7 +8,7 @@ Installation guidelines are found on https://www.black-sat.org/en/stable/install
 
 STEP 2: Add BLACK to PATH
 
-For Windows users: you need to add downloaded BLACK folder to PATH
+For Windows users: you need to add the unzipped BLACK folder to PATH
 For other users: follow the instructions on https://www.black-sat.org/en/stable/installation.html
 
 STEP 3: Download this GitHub repository 
