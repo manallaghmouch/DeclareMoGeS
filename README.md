@@ -18,7 +18,8 @@ STEP 3: Download this GitHub repository
 
 ### Model Generator
 
-model_name = **Model**(filename *- string* \
+model_name \
+= **Model**(filename *- string* \
                     alphabet_size *- integer* \
                     set_size *- integer* \
                     weights *- list* - should be as long as list of templates
@@ -46,7 +47,7 @@ model1 = **Model**(filename="model1.decl",
                weights = [1,1,1,1,1],
                consequent_not_adding=10,
                time_out=60
-               templates = [])
+               templates = [ChainResponse,Precedence,CoExistence,Response,Init])
 
 model1.**constraint_list**
 
