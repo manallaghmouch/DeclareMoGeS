@@ -19,7 +19,7 @@ class ConstraintFactory:
     def __init__(self):
         pass
     
-    def create_consistent_model(self, alphabet_size, set_size, weights, consequent_not_adding, templates, time_out):
+    def create_consistent_model(self, alphabet_size, set_size, weights, stop_after, templates, time_out):
         constraint = Constraint()
         constraint_list = ConstraintList()
         ltl_list = LtlList()
@@ -35,6 +35,7 @@ class ConstraintFactory:
         self.model_differs = 0 # salver took longer than 1 minute 
 
         n = 0 # number of times that a constraint was consequently not added to the model
+        self.iterations = [] # to save how many iterations were needed before adding a constraint to the model 
         j = 0
 
         while j < set_size:
@@ -55,6 +56,7 @@ class ConstraintFactory:
                         if deleted_template != None:
                             t.delete_template_weight(deleted_template,initial_templates,weights)
 
+                        self.iterations.append(n+1)
                         n = 0
                         j += 1
 
@@ -62,11 +64,12 @@ class ConstraintFactory:
                         n += 1
                         self.inconsistent_constraint +=1
                         self.redundant_constraint +=1
-                        if n >= consequent_not_adding: 
+                        if n >= stop_after: 
                             self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
                             # self.get_redundancy()  
                             # print(constraint_list) 
+                            self.iterations.append(n+1)
                             self.model_differs = 1                         
                             return constraint_list
                         else: continue 
@@ -74,11 +77,12 @@ class ConstraintFactory:
                     elif (consistency == True and redundancy == False):
                         n += 1
                         self.redundant_constraint +=1
-                        if n >= consequent_not_adding:  
+                        if n >= stop_after:  
                             self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
                             # self.get_redundancy()
                             # print(constraint_list)
+                            self.iterations.append(n+1)
                             self.model_differs = 1
                             return constraint_list
                         else: continue 
@@ -86,11 +90,12 @@ class ConstraintFactory:
                     elif (consistency == False and redundancy == True):
                         n += 1
                         self.inconsistent_constraint +=1
-                        if n >= consequent_not_adding:  
+                        if n >= stop_after:  
                             self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
                             # self.get_redundancy()
                             # print(constraint_list)
+                            self.iterations.append(n+1)
                             self.model_differs = 1
                             return constraint_list
                         else: continue 
@@ -98,11 +103,12 @@ class ConstraintFactory:
                     elif (consistency == None or redundancy == None):
                         n += 1
                         self.time_exceeded += 1
-                        if n >= consequent_not_adding:  
+                        if n >= stop_after:  
                             self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
                             # self.get_redundancy()
                             # print(constraint_list)
+                            self.iterations.append(n+1)
                             self.model_differs = 1
                             return constraint_list
                         else: continue
@@ -111,11 +117,12 @@ class ConstraintFactory:
 
                 else: 
                     n += 1 
-                    if n >= consequent_not_adding: 
+                    if n >= stop_after: 
                         self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                         # self.get_inconsistency()
                         # self.get_redundancy()     
-                        # print(constraint)                   
+                        # print(constraint)   
+                        self.iterations.append(n+1)                
                         return constraint_list
                     else: continue
             
@@ -123,7 +130,8 @@ class ConstraintFactory:
                 self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.") 
                 # self.get_inconsistency()
                 # self.get_redundancy()   
-                # print(constraint_list) 
+                # print(constraint_list)
+                self.iterations.append(n+1) 
                 self.model_differs = 1            
                 return constraint_list
             
@@ -179,4 +187,7 @@ class ConstraintFactory:
 
     def get_model_differs(self):
         return self.model_differs
+    
+    def get_iterations_before_adding(self):
+        return self.iterations
 

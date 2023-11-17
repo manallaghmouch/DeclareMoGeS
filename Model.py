@@ -14,10 +14,10 @@ class Model:
     constraintlist = ConstraintList()
     sigma = alphabet() # needed for satisfyability and redundancy checks with black_sat
 
-    def __init__(self, filename, alphabet_size, set_size, weights, consequent_not_adding, time_out, templates = []):
+    def __init__(self, filename, alphabet_size, set_size, weights, stop_after, time_out, templates = []):
         constraint_templates = Templates(templates).templates
 
-        self.constraint_list = Model.cf.create_consistent_model(alphabet_size, set_size, weights, consequent_not_adding, constraint_templates, time_out)
+        self.constraint_list = Model.cf.create_consistent_model(alphabet_size, set_size, weights, stop_after, constraint_templates, time_out)
         
         self.ltl_list = self.model_to_ltl()
         self.activities = Alphabet(alphabet_size).alphabet
@@ -119,6 +119,9 @@ class Model:
     def get_model_differs(self):
         return Model.cf.get_model_differs()
     
+    def get_iterations(self):
+        return Model.cf.get_iterations_before_adding()
+
     def save_model(self, constraint_list, activities, filename):
         file = open(filename, 'w') # overwrite if file already exists
         output = Model.constraintlist.list_to_decl_extension(constraint_list, activities)
