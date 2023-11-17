@@ -5,9 +5,6 @@ import csv
 import random
 from sys import argv
 
-# set_size = argv[1]
-# alphabet_size = argv[2]
-
 # Files
 alphabet=random.randint(4,35)
 set=random.randint(3,45)
@@ -32,7 +29,7 @@ result1 = {
     "exec_time30": []
 }
 df1 = pd.DataFrame(result1)
-df1.to_csv("execution-{0}-{1}-timeout{2}-{3}.csv".format(set,alphabet,stop_time,time_file), sep=',',index=False)
+df1.to_csv("generator_setting1_{0}.csv".format(argv[1]), sep=',',index=False)
 
 result2 = {
     "scenario": [],
@@ -45,7 +42,7 @@ result2 = {
     "specialized30": [],
 }
 df2 = pd.DataFrame(result2)
-df2.to_csv("model-{0}-{1}-timeout{2}-{3}.csv".format(set,alphabet,stop_time,time_file), sep=',',index=False)
+df2.to_csv("specializer_setting1_{0}.csv".format(argv[1]), sep=',',index=False)
 
 # Baseline parameters
 stop_after = 20 # constraints
@@ -103,7 +100,7 @@ fields1 = [str(str(set) + "--" + str(alphabet)),
             exec_time30
             ]
 
-with open(r"execution-{0}-{1}-{2}.csv".format(set,alphabet,stop_time,time_file), 'a') as f:
+with open(r"generator_setting1_{0}.csv".format(argv[1]), 'a') as f:
     writer = csv.writer(f)
     writer.writerow(fields1)
 
@@ -116,6 +113,6 @@ fields2 = [str(str(set) + "--" + str(alphabet)),
             specialized50,
             specialized30]
 
-with open(r"model-{0}-{1}-{2}.csv".format(set,alphabet,stop_time,time_file), 'a') as f:
+with open(r"specializer_setting1_{0}.csv".format(argv[1]), 'a') as f:
     writer = csv.writer(f)
     writer.writerow(fields2)
