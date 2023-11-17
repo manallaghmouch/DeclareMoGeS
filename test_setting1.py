@@ -86,10 +86,10 @@ exec_time30 = et_s30 - st_s30
 # print('Execution time generator:', exec_time_generator, 'seconds')
 # print('Execution time specializer:', exec_time_specializer, 'seconds')
 
-fields1 = [str(str(argv[1]) + "--" + str(argv[2])), 
-            argv[1], 
+fields1 = [str(str(set) + "--" + str(alphabet)), 
+            set, 
             model.__len__(), 
-            argv[2], 
+            alphabet, 
             stop_after, 
             model.get_iterations(),
             model.get_inconsistency(), 
@@ -103,19 +103,19 @@ fields1 = [str(str(argv[1]) + "--" + str(argv[2])),
             exec_time30
             ]
 
-with open(r"execution-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), 'a') as f:
+with open(r"execution-{0}-{1}-{2}.csv".format(set,alphabet,stop_time,time_file), 'a') as f:
     writer = csv.writer(f)
     writer.writerow(fields1)
 
-fields2 = [str(str(argv[1]) + "--" + str(argv[2])), 
-            argv[1], 
-            argv[2], 
+fields2 = [str(str(set) + "--" + str(alphabet)), 
+            set, 
+            alphabet, 
             model.constraint_list,
             specialized100,
             specialized70,
             specialized50,
             specialized30]
 
-with open(r"model-{0}-{1}-{2}.csv".format(argv[1],argv[2],time_file), 'a') as f:
+with open(r"model-{0}-{1}-{2}.csv".format(set,alphabet,stop_time,time_file), 'a') as f:
     writer = csv.writer(f)
     writer.writerow(fields2)
