@@ -54,7 +54,7 @@ weights = [random.randint(1,10),random.randint(1,10),random.randint(1,10),random
 
 # Main program
 st_g = time.time()
-model = Model("model6.decl", alphabet_size=alphabet, set_size=set, weights=weights, consequent_not_adding=stop_after, time_out=stop_time, templates=templates)
+model = Model("model6.decl", alphabet_size=alphabet, set_size=set, weights=weights, stop_after=stop_after, time_out=stop_time, templates=templates)
 et_g = time.time()
 
 # specialization scenarios
