@@ -7,7 +7,7 @@ from sys import argv
 # Files
 alphabet=random.randint(4,35)
 set=random.randint(3,45)
-stop_time=120 # max 2 minutes for black?
+stop_time=30 
 time_file = time.time()
 
 result1 = {
@@ -44,7 +44,7 @@ df2 = pd.DataFrame(result2)
 df2.to_csv("specializer_setting2_{0}.csv".format(argv[1]), sep=',',index=False)
 
 # Baseline parameters
-stop_after = 20 # constraints
+stop_after = 10 # constraints
 templates = [] # all templates
 weights = [random.randint(1,10),random.randint(1,10),random.randint(1,10),random.randint(1,10),random.randint(1,10),
            random.randint(1,10),random.randint(1,10),random.randint(1,10),random.randint(1,10),random.randint(1,10),
