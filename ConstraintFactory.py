@@ -51,6 +51,7 @@ class ConstraintFactory:
                     if (consistency == True and redundancy == True):
                         constraint_list.append(potential_constraint)
                         ltl_list.append(ltl_constraint)
+                        print("constraint added to model)")
                         deleted_template = t.change_templates(potential_constraint, alphabet)
 
                         if deleted_template != None:
@@ -64,6 +65,7 @@ class ConstraintFactory:
                         n += 1
                         self.inconsistent_constraint +=1
                         self.redundant_constraint +=1
+                        print("constraint not added to model")
                         if n >= stop_after: 
                             self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
@@ -77,6 +79,7 @@ class ConstraintFactory:
                     elif (consistency == True and redundancy == False):
                         n += 1
                         self.redundant_constraint +=1
+                        print("constraint not added to model")
                         if n >= stop_after:  
                             self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
@@ -90,6 +93,7 @@ class ConstraintFactory:
                     elif (consistency == False and redundancy == True):
                         n += 1
                         self.inconsistent_constraint +=1
+                        print("constraint not added to model")
                         if n >= stop_after:  
                             self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()
@@ -103,6 +107,7 @@ class ConstraintFactory:
                     elif (consistency == None or redundancy == None):
                         n += 1
                         self.time_exceeded += 1
+                        print("constraint not added to model")
                         if n >= stop_after:  
                             self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                             # self.get_inconsistency()

@@ -23,6 +23,7 @@ class LtlList(list):
         for c in ltl_list:
             unpacked = unpacked & c
         
+        print("Black solver started...")
         slv = solver()
         xi = scope(sigma)
 
@@ -33,6 +34,7 @@ class LtlList(list):
 
         # n = 0
         result = slv.solve(xi,f,True,time_out)
+        print("Black solver ended...")
         # while (result == None): 
         #     n+=1
         #     result = slv.solve(xi,f,True,20)
@@ -55,6 +57,7 @@ class LtlList(list):
         for c in ltl_list:
             unpacked = unpacked & c
         
+        print("Black solver started...")
         slv = solver()
         xi = scope(sigma)
 
@@ -65,6 +68,7 @@ class LtlList(list):
             
         # n = 0
         result = slv.solve(xi,~f,True,time_out)
+        print("Black solver ended...")
         # while (result == None): 
         #     n+=1
         #     result = slv.solve(xi,~f,True,20)
