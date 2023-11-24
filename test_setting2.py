@@ -105,7 +105,7 @@ with open(r"generator_setting2_{0}.csv".format(argv[1]), 'a') as f:
     writer = csv.writer(f)
     writer.writerow(fields1)
 
-fields2 = [str(str(set) + "--" + str(argv[2])), 
+fields2 = [str(str(set) + "--" + str(alphabet)), 
             set, 
             alphabet, 
             model.constraint_list,
