@@ -25,7 +25,8 @@ result1 = {
     "exec_time100": [],
     "exec_time70": [],
     "exec_time50": [],
-    "exec_time30": []
+    "exec_time30": [],
+    "weights": []
 }
 df1 = pd.DataFrame(result1)
 df1.to_csv("generator_setting2_{0}.csv".format(argv[1]), sep=',',index=False)
@@ -98,7 +99,8 @@ fields1 = [str(str(set) + "--" + str(alphabet)),
             exec_time100,
             exec_time70,
             exec_time50,
-            exec_time30
+            exec_time30,
+            weights
             ]
 
 with open(r"generator_setting2_{0}.csv".format(argv[1]), 'a') as f:
