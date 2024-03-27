@@ -1,4 +1,5 @@
 from black_sat import *
+from itertools import groupby
 
 class Constraint:
     HAS_REACTION = False
@@ -141,16 +142,38 @@ class End(Constraint):
     def __str__(self):
         return f"End({self.action})"
 
+# class Init(Constraint):
+#     HAS_REACTION = False
+#     HAS_N = False
+#     action = None
+#     def __init__(self, action):
+#         self.action = action
+#     def __repr__(self):
+#         return f"Init({self.action})"
+#     def __str__(self):
+#         return f"Init({self.action})"
+    
 class Init(Constraint):
     HAS_REACTION = False
     HAS_N = False
     action = None
+
     def __init__(self, action):
         self.action = action
+
+    def check(self, event_log):
+        for case_id, events in groupby(event_log, key=lambda x: x[0]):
+            first_event = next(events, None)
+            if first_event and first_event[1] != self.action:
+                return False
+        return True
+
     def __repr__(self):
         return f"Init({self.action})"
+
     def __str__(self):
         return f"Init({self.action})"
+
 
 class Existence(Constraint):
     HAS_REACTION = False

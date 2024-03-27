@@ -20,6 +20,7 @@ class Model:
         self.constraint_list = Model.cf.create_consistent_model(alphabet_size, set_size, weights, stop_after, constraint_templates, time_out)
         
         self.ltl_list = self.model_to_ltl()
+        self.ltl_list_str = self.model_to_ltl_str()
         self.activities = Alphabet(alphabet_size).alphabet
         self.file = self.save_model(self.constraint_list, self.activities, filename) 
 
@@ -33,8 +34,16 @@ class Model:
             ltl_expression = constraint.declare_to_ltl(i, self.sigma)
             ltl_list.append(ltl_expression)
         return ltl_list
+    
+    def model_to_ltl_str(self):
+        constraint = Constraint()
+        ltl_list_str = []
+        for i in self.constraint_list:
+            ltl_expression = constraint.declare_to_ltl(i, self.sigma)
+            ltl_list_str.append(str(ltl_expression))
+        return ltl_list_str
 
-    def specialise_model(self,specialization_percentage,specialized_model=[]): # user can indicate to keep a part of the initial model in the specialized model
+    def specialise_model(self, filename, specialization_percentage,specialized_model=[]): # user can indicate to keep a part of the initial model in the specialized model
         # to empty list if you already specialized once 
         if specialized_model == []:
             specialized_model = []
@@ -62,7 +71,9 @@ class Model:
                     if not self.constraint_list.contains_constraint(initial_constraint, specialized_model): 
                         specialized_model.append(initial_constraint)       
                     else: pass         
-    
+
+            self.file = self.save_model(self.constraint_list, self.activities, filename) 
+
             return specialized_model
 
     def has_specialisation_in_model(self, constraint, specialized_model): # In specialized model
@@ -123,7 +134,7 @@ class Model:
         return Model.cf.get_iterations_before_adding()
 
     def save_model(self, constraint_list, activities, filename):
-        file = open(filename, 'w') # overwrite if file already exists
+        file = open(filename, 'w',  encoding="utf-8") # overwrite if file already exists
         output = Model.constraintlist.list_to_decl_extension(constraint_list, activities)
         file.write(str(output))
         file.close()
