@@ -63,9 +63,9 @@ df['generated_model'] = df['generated_model'].apply(lambda x: Convert_to_lst(x))
 df['generated_model'] = df['generated_model'].apply(lambda x: [transform_item(item) for item in x])
 
 # using iteritems() function to retrieve rows
-for key, value in df.iterrows():
-    print(key)
-    print()
+# for key, value in df.iterrows():
+#     print(key)
+#     print()
 
 result2 = {
     "set_size_initial": [],
