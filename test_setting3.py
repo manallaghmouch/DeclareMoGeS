@@ -5,7 +5,6 @@ import csv
 from sys import argv
 import re
 
-# df = pd.read_csv("G:/Shared drives/PhD Manal/Collaborations/Bozen-Bolzano/results_journal/specialized_models.csv", delimiter=";")
 df = pd.read_csv(argv[2], delimiter=";")
 
 def Convert_to_lst(str_lst): 
@@ -53,19 +52,8 @@ def transform_item(item):
             return cls(*args)
     return item
 
-# lst = ['ChainPrecedence(a,})', 'End(q)', 'NotChainSuccession(a,m)', 'ChainPrecedence(c,i)', 'NotChainSuccession(c,n)', 'Exactly(g)', 'ChainPrecedence(j,d)', 'ExclusiveChoice(l,q)', 'ChainPrecedence(b,h)', 'NotChainSuccession(j,c)', 'Exactly(b)']
-
-# transformed_lst = [transform_item(item) for item in lst]
-
-# for item in transformed_lst:
-#     print(item)
 df['generated_model'] = df['generated_model'].apply(lambda x: Convert_to_lst(x))
 df['generated_model'] = df['generated_model'].apply(lambda x: [transform_item(item) for item in x])
-
-# using iteritems() function to retrieve rows
-# for key, value in df.iterrows():
-#     print(key)
-#     print()
 
 result2 = {
     "set_size_initial": [],
