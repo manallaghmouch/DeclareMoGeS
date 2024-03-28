@@ -71,6 +71,7 @@ result2 = {
     "set_size_initial": [],
     "set_size_specialized": [],
     "specialization_percentage": [],
+    "model_differs": [],
     "specialized_model": [],
     "execution_time": []
 }
@@ -94,6 +95,7 @@ for series_name, series in df.generated_model.items():
     fields2 = [len(initial_model),  
                len(specialized.constraint_list),
                percentage,
+               specialized.model_differs,
                specialized.constraint_list,
                exec_time]
 

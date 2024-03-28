@@ -142,6 +142,7 @@ class SpecializedModel:
                                 # self.get_inconsistency()
                                 # self.get_redundancy()     
                                 # print(constraint)   
+                                self.model_differs = 1   
                                 self.iterations.append(n+1)                
                                 return specialized_model
                             else: continue
