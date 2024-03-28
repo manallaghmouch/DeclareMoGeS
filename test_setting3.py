@@ -95,38 +95,3 @@ for series_name, series in df.generated_model.items():
     with open(r"specialized_model{0}.csv".format(argv[1]), 'a') as f:
         writer = csv.writer(f)
         writer.writerow(fields2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-filename='hallo.decl'                            
-initial_model = [Response('A','B'), Precedence('C','D')] 
-specialisation = SpecializedModel(filename,initial_model)
-
-
-
-
-
-# KLAD 
-st_s70 = time.time()
-specialized70 = SpecializedModel(filename,initial_model, 0.7)
-et_s70 = time.time()
-
-st_s50 = time.time()
-specialized50 = SpecializedModel(filename,initial_model, 0.5)
-et_s50 = time.time()
-
-st_s30 = time.time()
-specialized30 = SpecializedModel(filename,initial_model, 0.3)
-et_s30 = time.time()
