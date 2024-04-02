@@ -5,41 +5,41 @@ import random
 class Hierarchy: 
     """This class defines hierarchies between Declare constraints in terms of specialisation"""
 
-    # specialisation_candidates = {
-    #     'Precedence': [Init, AlternatePrecedence, ChainPrecedence, Succession, AlternateSuccession, ChainSuccession],
-    #     'Response': [AlternateResponse, ChainResponse, Succession, AlternateSuccession, ChainSuccession],
-    #     'Succession': [AlternateSuccession, ChainSuccession],
-    #     'AlternatePrecedence': [AlternateSuccession, ChainSuccession, ChainPrecedence],
-    #     'AlternateResponse': [AlternateSuccession, ChainSuccession, ChainResponse],
-    #     'AlternateSuccession': [ChainSuccession],
-    #     'ChainPrecedence': [ChainSuccession],
-    #     'ChainResponse': [ChainSuccession],
-    #     'RespondedExistence': [CoExistence, AlternateSuccession, ChainSuccession, Response, AlternateResponse, ChainResponse, Succession, Precedence, AlternatePrecedence, ChainPrecedence],
-    #     'CoExistence': [Succession, AlternateSuccession, ChainSuccession],
-    #     'NotSuccession': [NotCoExistence],
-    #     'NotChainSuccession': [NotSuccession],
-    #     'Choice': [ExclusiveChoice],
-    #     # 'Absence': [Exactly], # Absence
-    #     'Existence': [Exactly] # Existence
-    # }
-
     specialisation_candidates = {
-        'Precedence': [Init, AlternatePrecedence, ChainPrecedence, AlternateSuccession],
-        'Response': [AlternateResponse, ChainResponse, AlternateSuccession],
-        # 'Succession': [AlternateSuccession, ChainSuccession],
-        'AlternatePrecedence': [AlternateSuccession, ChainPrecedence],
-        'AlternateResponse': [AlternateSuccession, ChainResponse],
-        # 'AlternateSuccession': [ChainSuccession],
-        # 'ChainPrecedence': [ChainSuccession],
-        # 'ChainResponse': [ChainSuccession],
-        'RespondedExistence': [CoExistence, AlternateSuccession, Response, AlternateResponse, ChainResponse, Precedence, AlternatePrecedence, ChainPrecedence],
-        'CoExistence': [AlternateSuccession],
-        # 'NotSuccession': [NotCoExistence],
-        # 'NotChainSuccession': [NotSuccession],
-        # 'Choice': [ExclusiveChoice],
-        # 'Absence': [Exactly], # Absence
+        'Precedence': [Init, AlternatePrecedence, ChainPrecedence, Succession, AlternateSuccession, ChainSuccession],
+        'Response': [AlternateResponse, ChainResponse, Succession, AlternateSuccession, ChainSuccession],
+        'Succession': [AlternateSuccession, ChainSuccession],
+        'AlternatePrecedence': [AlternateSuccession, ChainSuccession, ChainPrecedence],
+        'AlternateResponse': [AlternateSuccession, ChainSuccession, ChainResponse],
+        'AlternateSuccession': [ChainSuccession],
+        'ChainPrecedence': [ChainSuccession],
+        'ChainResponse': [ChainSuccession],
+        'RespondedExistence': [CoExistence, AlternateSuccession, ChainSuccession, Response, AlternateResponse, ChainResponse, Succession, Precedence, AlternatePrecedence, ChainPrecedence],
+        'CoExistence': [Succession, AlternateSuccession, ChainSuccession],
+        'NotSuccession': [NotCoExistence],
+        'NotChainSuccession': [NotSuccession],
+        'Choice': [ExclusiveChoice],
+        'Absence': [Exactly], # Absence
         'Existence': [Exactly] # Existence
     }
+
+    # specialisation_candidates = {
+    #     'Precedence': [Init, AlternatePrecedence, ChainPrecedence, AlternateSuccession],
+    #     'Response': [AlternateResponse, ChainResponse, AlternateSuccession],
+    #     # 'Succession': [AlternateSuccession, ChainSuccession],
+    #     'AlternatePrecedence': [AlternateSuccession, ChainPrecedence],
+    #     'AlternateResponse': [AlternateSuccession, ChainResponse],
+    #     # 'AlternateSuccession': [ChainSuccession],
+    #     # 'ChainPrecedence': [ChainSuccession],
+    #     # 'ChainResponse': [ChainSuccession],
+    #     'RespondedExistence': [CoExistence, AlternateSuccession, Response, AlternateResponse, ChainResponse, Precedence, AlternatePrecedence, ChainPrecedence],
+    #     #'CoExistence': [AlternateSuccession],
+    #     # 'NotSuccession': [NotCoExistence],
+    #     # 'NotChainSuccession': [NotSuccession],
+    #     # 'Choice': [ExclusiveChoice],
+    #     # 'Absence': [Exactly], # Absence
+    #     # 'Existence': [Exactly] # Existence
+    # }
 
     def __init__(self):
         pass

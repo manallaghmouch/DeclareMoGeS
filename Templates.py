@@ -11,22 +11,47 @@ class Templates:
                           RespondedExistence, 
                           Response, 
                           Precedence, 
-                          #Succession, 
+                          Succession, 
                           AlternateResponse, 
                           AlternatePrecedence, 
-                          #AlternateSuccession, 
+                          AlternateSuccession, 
                           ChainResponse, 
                           ChainPrecedence, 
-                          #ChainSuccession,
+                          ChainSuccession,
                           NotCoExistence, 
-                          #NotSuccession, 
-                          #NotChainSuccession,
+                          NotSuccession, 
+                          NotChainSuccession,
                           Absence, 
                           Exactly,
-                          Existence]
-                          #Choice,
-                          #ExclusiveChoice]
+                          Existence,
+                          Choice,
+                          ExclusiveChoice]
         else: self.templates = templates
+
+    # def __init__(self, templates):
+    #     if templates == []: 
+    #         self.templates = [Init, 
+    #                       End, 
+    #                       #CoExistence, 
+    #                       RespondedExistence, 
+    #                       Response, 
+    #                       Precedence, 
+    #                       #Succession, 
+    #                       AlternateResponse, 
+    #                       AlternatePrecedence, 
+    #                       #AlternateSuccession, 
+    #                       ChainResponse, 
+    #                       ChainPrecedence, 
+    #                       #ChainSuccession,
+    #                       NotCoExistence] 
+    #                       #NotSuccession, 
+    #                       #NotChainSuccession,
+    #                       #Absence, 
+    #                       #Exactly,
+    #                       #Existence]
+    #                       #Choice,
+    #                       #ExclusiveChoice]
+    #     else: self.templates = templates
 
     def change_templates(self, constraint, alphabet): # Delete templates drom template_list if there are no templates left: end message 
         if constraint.__class__.has_reaction():

@@ -154,10 +154,10 @@ class SpecializedModel:
                     else:
                         specialized_model.append(initial_constraint)
 
-                # else: # cannot be specialized 
-                #     if not initial_model.contains_constraint(initial_constraint, specialized_model): 
-                #         specialized_model.append(initial_constraint)       
-                #     else: pass         
+                else: # cannot be specialized 
+                    if not initial_model.contains_constraint(initial_constraint, specialized_model): 
+                        specialized_model.append(initial_constraint)       
+                    else: pass         
 
         return specialized_model
 
