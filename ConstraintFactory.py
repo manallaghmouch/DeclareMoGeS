@@ -40,10 +40,24 @@ class ConstraintFactory:
 
         while j < set_size:
             if templates != []:
-                potential_constraint = self.create_one_constraint_alphabet(t.templates, weights, alphabet)
-                # print("potential_constraint created: " + str(potential_constraint))
 
-                if potential_constraint != None: 
+                ##### uitzetten na debug
+                # if j == 0: 
+                #     potential_constraint = Init('d')
+                # elif j == 1:
+                #     potential_constraint = Existence('a') # a must exist <a>
+                # elif j==2: 
+                #     potential_constraint = ChainSuccession('i','a') 
+                #     # i must appear in the first position before a <i,a> AND a must appear in the next posit after i
+                # else:
+                #     potential_constraint = ChainResponse('i','c') # c must appear in the first position after i <i,c> --> Inconsistent with two previous
+
+                ##### terug aanzetten
+                potential_constraint = self.create_one_constraint_alphabet(t.templates, weights, alphabet)
+                
+                print("potential_constraint created: " + str(potential_constraint))
+
+                if potential_constraint != None:
                     ltl_constraint = constraint.declare_to_ltl(potential_constraint, self.sigma)
                     consistency = ltl_list.check_consistency(ltl_constraint, ltl_list, self.sigma, time_out)
                     redundancy = ltl_list.check_redundancy(ltl_constraint, ltl_list, self.sigma, time_out)                                 
@@ -74,7 +88,7 @@ class ConstraintFactory:
                             self.iterations.append(n+1)
                             self.model_differs = 1                         
                             return constraint_list
-                        else: continue 
+                        else: j += 1
 
                     elif (consistency == True and redundancy == False):
                         n += 1
@@ -88,7 +102,7 @@ class ConstraintFactory:
                             self.iterations.append(n+1)
                             self.model_differs = 1
                             return constraint_list
-                        else: continue 
+                        else: j += 1 
 
                     elif (consistency == False and redundancy == True):
                         n += 1
@@ -102,7 +116,7 @@ class ConstraintFactory:
                             self.iterations.append(n+1)
                             self.model_differs = 1
                             return constraint_list
-                        else: continue 
+                        else: j += 1 
 
                     elif (consistency == None or redundancy == None):
                         n += 1
@@ -116,11 +130,11 @@ class ConstraintFactory:
                             self.iterations.append(n+1)
                             self.model_differs = 1
                             return constraint_list
-                        else: continue
+                        else: j += 1
                         
                         # return constraint_list 
 
-                else: 
+                else: # if potential_constraint == None
                     n += 1 
                     if n >= stop_after: 
                         self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
@@ -129,9 +143,9 @@ class ConstraintFactory:
                         # print(constraint)   
                         self.iterations.append(n+1)                
                         return constraint_list
-                    else: continue
+                    else: j += 1
             
-            else:
+            else: # if templates list is empty
                 self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.") 
                 # self.get_inconsistency()
                 # self.get_redundancy()   

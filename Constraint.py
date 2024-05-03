@@ -57,15 +57,15 @@ class Constraint:
             elif constraint.__class__.__name__ == 'ChainResponse':
                 return G(implies(action, X(reaction)))
             elif constraint.__class__.__name__ == 'ChainPrecedence':
-                return G(implies(X(reaction), action))
+                return G(implies(reaction, Y(action)))
             elif constraint.__class__.__name__ == 'ChainSuccession':
-                return G(implies(action,X(reaction)) & G(implies(X(reaction),action)))
+                return G(implies(action,X(reaction))) & G(implies(reaction, Y(action)))
             elif constraint.__class__.__name__ == 'NotCoExistence':
                 return ~(iff(F(action),F(reaction)))
             elif constraint.__class__.__name__ == 'NotSuccession':
                 return ~(G(implies(action,F(reaction))) & U(~reaction,action) | G(~reaction))
             elif constraint.__class__.__name__ == 'NotChainSuccession':
-                return ~(G(implies(action,X(reaction)) & G(implies(X(reaction),action))))
+                return ~(G(implies(action,X(reaction))) & G(implies(reaction, Y(action))))
             elif constraint.__class__.__name__ == 'Choice':
                 return F(action) | F(reaction)
             elif constraint.__class__.__name__ == 'ExclusiveChoice':

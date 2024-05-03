@@ -41,9 +41,9 @@ class Templates:
     #                       AlternatePrecedence, 
     #                       #AlternateSuccession, 
     #                       ChainResponse, 
-    #                       ChainPrecedence, 
+    #                       ChainPrecedence]
     #                       #ChainSuccession,
-    #                       NotCoExistence] 
+    #                       #NotCoExistence] 
     #                       #NotSuccession, 
     #                       #NotChainSuccession,
     #                       #Absence, 
@@ -52,6 +52,30 @@ class Templates:
     #                       #Choice,
     #                       #ExclusiveChoice]
     #     else: self.templates = templates
+
+        # if templates == []: 
+        #     self.templates = [Init, 
+        #                   End, 
+        #                   #CoExistence, 
+        #                   RespondedExistence, 
+        #                   Response, 
+        #                   Precedence, 
+        #                   #Succession, 
+        #                   AlternateResponse, 
+        #                   AlternatePrecedence, 
+        #                   #AlternateSuccession, 
+        #                   ChainResponse, 
+        #                   ChainPrecedence,
+        #                   ChainSuccession]
+        #                   #NotCoExistence] 
+        #                   #NotSuccession, 
+        #                   #NotChainSuccession,
+        #                   #Absence, 
+        #                   #Exactly,
+        #                   #Existence]
+        #                   #Choice,
+        #                   #ExclusiveChoice]
+        # else: self.templates = templates
 
     def change_templates(self, constraint, alphabet): # Delete templates drom template_list if there are no templates left: end message 
         if constraint.__class__.has_reaction():
@@ -64,10 +88,15 @@ class Templates:
                 return constraint.__class__
             else: return None 
         else: 
-            constraint_actions = alphabet.alphabet_ante.get(constraint.__class__)
-            if (len(constraint_actions) == 0):
+            if constraint.__class__.__name__ == 'Init' or constraint.__class__.__name__ == "End":
                 self.templates.remove(constraint.__class__)
-            else: return None   
+                return constraint.__class__
+            else:
+                constraint_actions = alphabet.alphabet_ante.get(constraint.__class__)
+                if (len(constraint_actions) == 0):
+                    self.templates.remove(constraint.__class__)
+                    return constraint.__class__
+                else: return None   
 
     def delete_template_weight(self, deleted_template, initial_templates, weights):
         template_index = initial_templates.index(deleted_template)

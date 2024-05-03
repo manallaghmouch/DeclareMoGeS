@@ -8,9 +8,8 @@ import re
 df = pd.read_csv(argv[2], delimiter=";")
 
 def Convert_to_lst(str_lst): 
-    str_lst = str_lst.replace("[", "")
-    str_lst = str_lst.replace("]", "")
-    li = list(str_lst.split(", ")) 
+    str_lst = str_lst[1:-1]
+    li = str_lst.split(", ")
     return li 
 
 # Define a dictionary to map class names to their corresponding classes
@@ -52,8 +51,8 @@ def transform_item(item):
             return cls(*args)
     return item
 
-df['generated_model'] = df['generated_model'].apply(lambda x: Convert_to_lst(x))
-df['generated_model'] = df['generated_model'].apply(lambda x: [transform_item(item) for item in x])
+df['generated_model_lst'] = df['generated_model'].apply(lambda x: Convert_to_lst(x))
+df['generated_model_lst'] = df['generated_model_lst'].apply(lambda x: [transform_item(item) for item in x])
 
 result2 = {
     "set_size_initial": [],

@@ -27,6 +27,14 @@ class LtlList(list):
         slv = solver()
         xi = scope(sigma)
 
+        # f = unpacked
+
+        # for a in activities:
+        #     for b in activities:
+        #         if b != a:
+        #             c = ~b
+        #             f = f & implies(a, c)
+
         f = unpacked & constraint # test consistency by testing the conjunction
         
         # st = time.time()

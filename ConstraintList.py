@@ -1,9 +1,12 @@
 from Constraint import *
 import re
 
+
 class ConstraintList(list):
     """This class creates a list of constraints"""
-    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
     def check_if_exists(self, x, ls):
         if x in ls:
             return True
@@ -30,7 +33,7 @@ class ConstraintList(list):
         output_activities = ""
         output_constraints = ""
 
-        if constraint_list != []:
+        if constraint_list != [] and constraint_list != None:
             for item in activities:
                 item_str = "activity " + str(item) + "\n"
                 output_activities += item_str
@@ -48,7 +51,7 @@ class ConstraintList(list):
                 output1 += item_str
 
             # last item constraint_list
-            item_last_str = str(constraint_list[len(constraint_list)-1]) + " | |"
+            item_last_str = str(constraint_list[len(constraint_list)-1]) + " | | |"
             item_last_str = item_last_str.replace("(","[")
             item_last_str = item_last_str.replace(")","]")
             item_last_str = item_last_str.replace(",",", ")
