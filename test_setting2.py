@@ -77,10 +77,10 @@ et_g = time.time()
 
 # get the execution time
 exec_time_generator = et_g - st_g
-exec_time100 = et_s100 - st_s100
-exec_time70 = et_s70 - st_s70
-exec_time50 = et_s50 - st_s50
-exec_time30 = et_s30 - st_s30
+# exec_time100 = et_s100 - st_s100
+# exec_time70 = et_s70 - st_s70
+# exec_time50 = et_s50 - st_s50
+# exec_time30 = et_s30 - st_s30
 
 # print('Execution time generator:', exec_time_generator, 'seconds')
 # print('Execution time specializer:', exec_time_specializer, 'seconds')
