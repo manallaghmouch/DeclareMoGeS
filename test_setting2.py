@@ -96,10 +96,10 @@ fields1 = [str(str(set) + "--" + str(alphabet)),
             model.get_model_differs(),
             exec_time_generator,
             model.get_time_exceeded(),
-            exec_time100,
-            exec_time70,
-            exec_time50,
-            exec_time30,
+            # exec_time100,
+            # exec_time70,
+            # exec_time50,
+            # exec_time30,
             weights
             ]
 
