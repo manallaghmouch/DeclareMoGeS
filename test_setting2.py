@@ -31,18 +31,18 @@ result1 = {
 df1 = pd.DataFrame(result1)
 df1.to_csv("generator_setting2_{0}.csv".format(argv[1]), sep=',',index=False)
 
-result2 = {
-    "scenario": [],
-    "set_size": [],
-    "alphabet_size": [],
-    "generated_model": [],
-    "specialized100": [],
-    "specialized70": [],
-    "specialized50": [],
-    "specialized30": [],
-}
-df2 = pd.DataFrame(result2)
-df2.to_csv("specializer_setting2_{0}.csv".format(argv[1]), sep=',',index=False)
+# result2 = {
+#     "scenario": [],
+#     "set_size": [],
+#     "alphabet_size": [],
+#     "generated_model": [],
+#     "specialized100": [],
+#     "specialized70": [],
+#     "specialized50": [],
+#     "specialized30": [],
+# }
+# df2 = pd.DataFrame(result2)
+# df2.to_csv("specializer_setting2_{0}.csv".format(argv[1]), sep=',',index=False)
 
 # Baseline parameters
 stop_after = 10 # constraints
@@ -58,22 +58,22 @@ st_g = time.time()
 model = Model("model6.decl", alphabet_size=alphabet, set_size=set, weights=weights, stop_after=stop_after, time_out=stop_time, templates=templates)
 et_g = time.time()
 
-# specialization scenarios
-st_s100 = time.time()
-specialized100 = model.specialise_model(1)
-et_s100 = time.time() 
+# # specialization scenarios
+# st_s100 = time.time()
+# specialized100 = model.specialise_model(1)
+# et_s100 = time.time() 
 
-st_s70 = time.time()
-specialized70 = model.specialise_model(0.7)
-et_s70 = time.time() 
+# st_s70 = time.time()
+# specialized70 = model.specialise_model(0.7)
+# et_s70 = time.time() 
 
-st_s50 = time.time()
-specialized50 = model.specialise_model(0.5)
-et_s50 = time.time() 
+# st_s50 = time.time()
+# specialized50 = model.specialise_model(0.5)
+# et_s50 = time.time() 
 
-st_s30 = time.time()
-specialized30 = model.specialise_model(0.3)
-et_s30 = time.time() 
+# st_s30 = time.time()
+# specialized30 = model.specialise_model(0.3)
+# et_s30 = time.time() 
 
 # get the execution time
 exec_time_generator = et_g - st_g
@@ -107,15 +107,15 @@ with open(r"generator_setting2_{0}.csv".format(argv[1]), 'a') as f:
     writer = csv.writer(f)
     writer.writerow(fields1)
 
-fields2 = [str(str(set) + "--" + str(alphabet)), 
-            set, 
-            alphabet, 
-            model.constraint_list,
-            specialized100,
-            specialized70,
-            specialized50,
-            specialized30]
+# fields2 = [str(str(set) + "--" + str(alphabet)), 
+#             set, 
+#             alphabet, 
+#             model.constraint_list,
+#             specialized100,
+#             specialized70,
+#             specialized50,
+#             specialized30]
 
-with open(r"specializer_setting2_{0}.csv".format(argv[1]), 'a') as f:
-    writer = csv.writer(f)
-    writer.writerow(fields2)
+# with open(r"specializer_setting2_{0}.csv".format(argv[1]), 'a') as f:
+#     writer = csv.writer(f)
+#     writer.writerow(fields2)
