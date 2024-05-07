@@ -5,7 +5,7 @@ import csv
 from sys import argv
 import re
 
-df = pd.read_csv(argv[2], delimiter=";")
+df = pd.read_csv(argv[2], delimiter=";", header=0)
 
 def Convert_to_lst(str_lst): 
     str_lst = str_lst[1:-1]
