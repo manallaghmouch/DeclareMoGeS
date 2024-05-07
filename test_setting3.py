@@ -69,7 +69,7 @@ df_result.to_csv("specialized_model{0}.csv".format(argv[1]), sep=',',index=False
 filename='specialisation.decl'
 
 # Run Specializer
-initial_model = df.generated_model_lst.iloc[argv[1]]
+initial_model = df.generated_model_lst.iloc[int(argv[1])]
 percentage = random.random()
 
 st = time.time()
