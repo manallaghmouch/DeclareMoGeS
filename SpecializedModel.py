@@ -54,7 +54,7 @@ class SpecializedModel:
         n_initial_model = len(initial_model)
 
         if n_initial_model == 0: 
-            return Model.cf.end_model_message("No specialization of initial model could be generated, because initial model is empty.")
+            return print("No specialization of initial model could be generated, because initial model is empty.")
         else:
             for index in range(0, n_initial_model):
                 initial_constraint = initial_model[index]
@@ -83,7 +83,7 @@ class SpecializedModel:
                             self.redundant_constraint +=1
                             print("constraint not added to model")
                             if n >= stop_after: 
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()  
                                 # print(constraint_list) 
@@ -97,7 +97,7 @@ class SpecializedModel:
                             self.redundant_constraint +=1
                             print("constraint not added to model")
                             if n >= stop_after:  
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()
                                 # print(constraint_list)
@@ -111,7 +111,7 @@ class SpecializedModel:
                             self.inconsistent_constraint +=1
                             print("constraint not added to model")
                             if n >= stop_after:  
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()
                                 # print(constraint_list)
@@ -125,7 +125,7 @@ class SpecializedModel:
                             self.time_exceeded += 1
                             print("constraint not added to model")
                             if n >= stop_after:  
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()
                                 # print(constraint_list)
@@ -139,7 +139,7 @@ class SpecializedModel:
                         else: 
                             n += 1 
                             if n >= stop_after: 
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()     
                                 # print(constraint)   
@@ -172,7 +172,7 @@ class SpecializedModel:
                             self.redundant_constraint +=1
                             print("constraint not added to model")
                             if n >= stop_after: 
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()  
                                 # print(constraint_list) 
@@ -186,7 +186,7 @@ class SpecializedModel:
                             self.redundant_constraint +=1
                             print("constraint not added to model")
                             if n >= stop_after:  
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()
                                 # print(constraint_list)
@@ -200,7 +200,7 @@ class SpecializedModel:
                             self.inconsistent_constraint +=1
                             print("constraint not added to model")
                             if n >= stop_after:  
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()
                                 # print(constraint_list)
@@ -214,7 +214,7 @@ class SpecializedModel:
                             self.time_exceeded += 1
                             print("constraint not added to model")
                             if n >= stop_after:  
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()
                                 # print(constraint_list)
@@ -228,7 +228,7 @@ class SpecializedModel:
                         else: 
                             n += 1 
                             if n >= stop_after: 
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()     
                                 # print(constraint)   
@@ -258,7 +258,7 @@ class SpecializedModel:
                             self.redundant_constraint +=1
                             print("constraint not added to model")
                             if n >= stop_after: 
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()  
                                 # print(constraint_list) 
@@ -272,7 +272,7 @@ class SpecializedModel:
                             self.redundant_constraint +=1
                             print("constraint not added to model")
                             if n >= stop_after:  
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()
                                 # print(constraint_list)
@@ -286,7 +286,7 @@ class SpecializedModel:
                             self.inconsistent_constraint +=1
                             print("constraint not added to model")
                             if n >= stop_after:  
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()
                                 # print(constraint_list)
@@ -300,7 +300,7 @@ class SpecializedModel:
                             self.time_exceeded += 1
                             print("constraint not added to model")
                             if n >= stop_after:  
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()
                                 # print(constraint_list)
@@ -314,7 +314,7 @@ class SpecializedModel:
                         else: 
                             n += 1 
                             if n >= stop_after: 
-                                self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
+                                # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
                                 # self.get_redundancy()     
                                 # print(constraint)   
