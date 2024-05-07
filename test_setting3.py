@@ -86,6 +86,6 @@ for series_name, series in df.generated_model.items():
                specialized.constraint_list,
                exec_time]
 
-    with open(r"specialized_model{0}.csv".format(argv[1]), 'a') as f:
+    with open(r"specialized_model{0}.csv".format(series_name), 'a') as f:
         writer = csv.writer(f)
         writer.writerow(fields2)
