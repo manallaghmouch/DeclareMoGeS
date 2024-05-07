@@ -5,7 +5,7 @@ import csv
 from sys import argv
 import re
 
-df = pd.read_csv(argv[1], delimiter=";")
+df = pd.read_csv(argv[2], delimiter=";")
 
 def Convert_to_lst(str_lst): 
     str_lst = str_lst[1:-1]
@@ -63,29 +63,53 @@ result2 = {
     "execution_time": []
 }
 df_result = pd.DataFrame(result2)
+
 df_result.to_csv("specialized_model{0}.csv".format(argv[1]), sep=',',index=False)
 
 filename='specialisation.decl'
 
-for series_name, series in df.generated_model.items():
-    initial_model = series
-    percentage = random.random()
+# Run Specializer
+initial_model = df.generated_model_lst.iloc[argv[1]]
+percentage = random.random()
 
-    st = time.time()
-    specialized = SpecializedModel(filename,initial_model, percentage)
-    et = time.time()
+st = time.time()
+specialized = SpecializedModel(filename,initial_model, percentage)
+et = time.time()
 
-    exec_time = et - st
+exec_time = et - st
 
-    print(specialized.constraint_list)
+print(specialized.constraint_list)
 
-    fields2 = [len(initial_model),  
-               len(specialized.constraint_list),
-               percentage,
-               specialized.model_differs,
-               specialized.constraint_list,
-               exec_time]
+fields2 = [len(initial_model),  
+            len(specialized.constraint_list),
+            percentage,
+            specialized.model_differs,
+            specialized.constraint_list,
+            exec_time]
 
-    with open(r"specialized_model{0}.csv".format(series_name), 'a') as f:
-        writer = csv.writer(f)
-        writer.writerow(fields2)
+with open(r"specialized_model{0}.csv".format(argv[1]), 'a') as f:
+    writer = csv.writer(f)
+    writer.writerow(fields2)
+
+# for series_name, series in df.generated_model.items():
+#     initial_model = series
+#     percentage = random.random()
+
+#     st = time.time()
+#     specialized = SpecializedModel(filename,initial_model, percentage)
+#     et = time.time()
+
+#     exec_time = et - st
+
+#     print(specialized.constraint_list)
+
+#     fields2 = [len(initial_model),  
+#                len(specialized.constraint_list),
+#                percentage,
+#                specialized.model_differs,
+#                specialized.constraint_list,
+#                exec_time]
+
+#     with open(r"specialized_model{0}.csv".format(argv[1]), 'a') as f:
+#         writer = csv.writer(f)
+#         writer.writerow(fields2)
