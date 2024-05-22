@@ -3,55 +3,55 @@ from Alphabet  import *
 
 class Templates:
     
-    def __init__(self, templates):
-        if templates == []: 
-            self.templates = [Init, 
-                          End, 
-                          CoExistence, 
-                          RespondedExistence, 
-                          Response, 
-                          Precedence, 
-                          Succession, 
-                          AlternateResponse, 
-                          AlternatePrecedence, 
-                          AlternateSuccession, 
-                          ChainResponse, 
-                          ChainPrecedence, 
-                          ChainSuccession,
-                          NotCoExistence, 
-                          NotSuccession, 
-                          NotChainSuccession,
-                          Absence, 
-                          Exactly,
-                          Existence,
-                          Choice,
-                          ExclusiveChoice]
-        else: self.templates = templates
-
     # def __init__(self, templates):
     #     if templates == []: 
     #         self.templates = [Init, 
     #                       End, 
-    #                       #CoExistence, 
+    #                       CoExistence, 
     #                       RespondedExistence, 
     #                       Response, 
     #                       Precedence, 
-    #                       #Succession, 
+    #                       Succession, 
     #                       AlternateResponse, 
     #                       AlternatePrecedence, 
-    #                       #AlternateSuccession, 
+    #                       AlternateSuccession, 
     #                       ChainResponse, 
-    #                       ChainPrecedence]
-    #                       #ChainSuccession,
-    #                       #NotCoExistence] 
-    #                       #NotSuccession, 
-    #                       #NotChainSuccession,
-    #                       #Absence, 
-    #                       #Exactly,
-    #                       #Existence]
-    #                       #Choice,
-    #                       #ExclusiveChoice]
+    #                       ChainPrecedence, 
+    #                       ChainSuccession,
+    #                       NotCoExistence, 
+    #                       NotSuccession, 
+    #                       NotChainSuccession,
+    #                       Absence, 
+    #                       Exactly,
+    #                       Existence,
+    #                       Choice,
+    #                       ExclusiveChoice]
     #     else: self.templates = templates
+
+    def __init__(self, templates):
+        if templates == []: 
+            self.templates = [Init, 
+                          End, 
+                          #CoExistence, 
+                          RespondedExistence, 
+                          Response, 
+                          Precedence, 
+                          #Succession, 
+                          AlternateResponse, 
+                          AlternatePrecedence, 
+                          #AlternateSuccession, 
+                          ChainResponse, 
+                          ChainPrecedence]
+                          #ChainSuccession,
+                          #NotCoExistence] 
+                          #NotSuccession, 
+                          #NotChainSuccession,
+                          #Absence, 
+                          #Exactly,
+                          #Existence]
+                          #Choice,
+                          #ExclusiveChoice]
+        else: self.templates = templates
 
         # if templates == []: 
         #     self.templates = [Init, 

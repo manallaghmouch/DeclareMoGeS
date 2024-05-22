@@ -31,6 +31,10 @@ class GeneralizedModel:
         constraint = Constraint()
         ltl_list = LtlList()
 
+        # Transform list to constraintlist 
+        initial_model = ConstraintList(initial_model)
+        # initial_model.__dict__ = constraint_lst_temp.__dict__
+
         # Transform to LTL list
         generalized_model = self.model_to_ltl(subset_to_keep) 
 
@@ -409,6 +413,8 @@ class GeneralizedModel:
         output = Model.constraintlist.list_to_decl_extension(constraint_list, activities=[])
         file.write(str(output))
         file.close()
+
+    
 
 
 
