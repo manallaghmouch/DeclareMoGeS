@@ -53,7 +53,8 @@ weights = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] # equal probability of occ
 
 # Main program
 st_g = time.time()
-model = Model("model6.decl", alphabet_size=alphabet, set_size=set, weights=weights, stop_after=stop_after, time_out=stop_time, templates=templates)
+model = Model("model_{0}.decl".format(argv[1]), alphabet_size=alphabet, set_size=set, weights=weights, stop_after=stop_after, time_out=stop_time, templates=templates)
+### format toegevoegd 
 et_g = time.time()
 
 # specialization scenarios
