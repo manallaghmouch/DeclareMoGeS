@@ -31,9 +31,23 @@ class SpecializedModel:
         # to empty list if you already specialized once 
         constraint = Constraint()
         ltl_list = LtlList()
+        hierarchy = Hierarchy()
 
-        # Transform to LTL list
-        specialized_model = self.model_to_ltl(subset_to_keep) 
+        ## Copy initial_model to temp_model (which we will change later on)
+        temp_model = [x for x in initial_model if not x in subset_to_keep or subset_to_keep.remove(x)]
+
+        ## Check which rules from temp_model cannot be specialized
+        specialized_model_declare = subset_to_keep
+
+        for r in temp_model: 
+            if hierarchy.can_be_specialised(r) == None: 
+                specialized_model_declare.append(r)
+                temp_model.remove(r)
+            else:
+                pass 
+
+        ## Transform subset_to_keep to LTL list
+        specialized_model = self.model_to_ltl(specialized_model_declare) 
 
         # if subset_to_keep == []:
         #     specialized_model = []
@@ -50,25 +64,31 @@ class SpecializedModel:
         self.iterations = [] # to save how many iterations were needed before adding a constraint to the model 
         j = 0
 
-        hierarchy = Hierarchy()
-        n_initial_model = len(initial_model)
+        ## hierarchy = Hierarchy()
+        ## n_initial_model = len(initial_model)
+        n_initial_model = len(temp_model)
 
         if n_initial_model == 0: 
             return print("No specialization of initial model could be generated, because initial model is empty.")
         else:
-            for index in range(0, n_initial_model):
+            index = 0
+            while index != n_initial_model:
                 initial_constraint = initial_model[index]
-                # specialized_model to LTL list
                 specialized_model_ltl = self.model_to_ltl(specialized_model)
+                # hierarchy = Hierarchy()
 
-                if hierarchy.can_be_specialised(initial_constraint): 
+                if hierarchy.can_be_specialised(initial_constraint):
                     if random.random() < specialization_percentage:
                         potential_constraint = hierarchy.generate_specialisation_candidate(initial_constraint)
                         ltl_constraint = self.constraint.declare_to_ltl(potential_constraint, self.sigma)
                         consistency = ltl_list.check_consistency(ltl_constraint, specialized_model_ltl, self.sigma, time_out=30)
-                        redundancy = ltl_list.check_redundancy(ltl_constraint, specialized_model_ltl, self.sigma, time_out=30) 
+                        inredundancy = ltl_list.check_redundancy(ltl_constraint, specialized_model_ltl, self.sigma, time_out=30)
 
-                        if (consistency == True and redundancy == True):
+                        if (consistency == True and inredundancy == True):
+                            ##
+                            hierarchy = Hierarchy()
+                            ##
+
                             specialized_model.append(potential_constraint)
                             ltl_list.append(ltl_constraint)
                             print("constraint added to specialized model")
@@ -77,11 +97,20 @@ class SpecializedModel:
                             n = 0
                             j += 1
 
-                        elif (consistency == False and redundancy == False):
+                            # to go further in the loop: 
+                            index = index + 1
+
+                        elif (consistency == False and inredundancy == False):
                             n += 1
                             self.inconsistent_constraint +=1
                             self.redundant_constraint +=1
-                            print("constraint not added to model")
+                            print("Constraint not specialized. Let's try another specialisation candidate...")
+
+                            hierarchy.delete_specialization_candidate(initial_constraint, potential_constraint)   
+
+                            # to try again, and thus not go further in the loop: 
+                            index = index    
+
                             if n >= stop_after: 
                                 # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
@@ -92,85 +121,16 @@ class SpecializedModel:
                                 return specialized_model
                             else: continue 
 
-                        elif (consistency == True and redundancy == False):
+                        elif (consistency == True and inredundancy == False):
                             n += 1
                             self.redundant_constraint +=1
-                            print("constraint not added to model")
-                            if n >= stop_after:  
-                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()
-                                # print(constraint_list)
-                                self.iterations.append(n+1)
-                                self.model_differs = 1
-                                return specialized_model
-                            else: continue 
+                            print("Constraint not specialized. Let's try another specialisation candidate...")
 
-                        elif (consistency == False and redundancy == True):
-                            n += 1
-                            self.inconsistent_constraint +=1
-                            print("constraint not added to model")
-                            if n >= stop_after:  
-                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()
-                                # print(constraint_list)
-                                self.iterations.append(n+1)
-                                self.model_differs = 1
-                                return specialized_model
-                            else: continue 
+                            hierarchy.delete_specialization_candidate(initial_constraint, potential_constraint)   
 
-                        elif (consistency == None or redundancy == None):
-                            n += 1
-                            self.time_exceeded += 1
-                            print("constraint not added to model")
-                            if n >= stop_after:  
-                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()
-                                # print(constraint_list)
-                                self.iterations.append(n+1)
-                                self.model_differs = 1
-                                return specialized_model
-                            else: continue
-                            
-                            # return constraint_list 
+                            # to try again, and thus not go further in the loop: 
+                            index = index   
 
-                        else: 
-                            n += 1 
-                            if n >= stop_after: 
-                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()     
-                                # print(constraint)   
-                                self.model_differs = 1   
-                                self.iterations.append(n+1)                
-                                return specialized_model
-                            else: continue
-                       
-                        # if not self.initial_model.contains_constraint(potential_constraint, specialized_model): 
-                        #     specialized_model.append(potential_constraint)
-                        # else: pass
-                    
-                    else:
-                        potential_constraint = initial_constraint
-                        ltl_constraint = self.constraint.declare_to_ltl(potential_constraint, self.sigma)
-                        consistency = ltl_list.check_consistency(ltl_constraint, specialized_model_ltl, self.sigma, time_out=30)
-                        redundancy = ltl_list.check_redundancy(ltl_constraint, specialized_model_ltl, self.sigma, time_out=30) 
-                        if (consistency == True and redundancy == True):
-                            specialized_model.append(potential_constraint)
-                            ltl_list.append(ltl_constraint)
-                            print("constraint added to specialized model")
-
-                            self.iterations.append(n+1)
-                            n = 0
-                            j += 1
-
-                        elif (consistency == False and redundancy == False):
-                            n += 1
-                            self.inconsistent_constraint +=1
-                            self.redundant_constraint +=1
-                            print("constraint not added to model")
                             if n >= stop_after: 
                                 # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
@@ -181,82 +141,16 @@ class SpecializedModel:
                                 return specialized_model
                             else: continue 
 
-                        elif (consistency == True and redundancy == False):
-                            n += 1
-                            self.redundant_constraint +=1
-                            print("constraint not added to model")
-                            if n >= stop_after:  
-                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()
-                                # print(constraint_list)
-                                self.iterations.append(n+1)
-                                self.model_differs = 1
-                                return specialized_model
-                            else: continue 
-
-                        elif (consistency == False and redundancy == True):
+                        elif (consistency == False and inredundancy == True):                                         
                             n += 1
                             self.inconsistent_constraint +=1
-                            print("constraint not added to model")
-                            if n >= stop_after:  
-                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()
-                                # print(constraint_list)
-                                self.iterations.append(n+1)
-                                self.model_differs = 1
-                                return specialized_model
-                            else: continue 
+                            print("Constraint not specialized. Let's try another specialisation candidate...")
 
-                        elif (consistency == None or redundancy == None):
-                            n += 1
-                            self.time_exceeded += 1
-                            print("constraint not added to model")
-                            if n >= stop_after:  
-                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()
-                                # print(constraint_list)
-                                self.iterations.append(n+1)
-                                self.model_differs = 1
-                                return specialized_model
-                            else: continue
-                            
-                            # return constraint_list 
+                            hierarchy.delete_specialization_candidate(initial_constraint, potential_constraint)   
 
-                        else: 
-                            n += 1 
-                            if n >= stop_after: 
-                                # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()     
-                                # print(constraint)   
-                                self.model_differs = 1   
-                                self.iterations.append(n+1)                
-                                return specialized_model
-                            else: continue
+                            # to try again, and thus not go further in the loop: 
+                            index = index 
 
-                else: # cannot be specialized 
-                    if not initial_model.contains_constraint(initial_constraint, specialized_model): 
-                        potential_constraint = initial_constraint
-                        ltl_constraint = self.constraint.declare_to_ltl(potential_constraint, self.sigma)
-                        consistency = ltl_list.check_consistency(ltl_constraint, specialized_model_ltl, self.sigma, time_out=30)
-                        redundancy = ltl_list.check_redundancy(ltl_constraint, specialized_model_ltl, self.sigma, time_out=30) 
-                        if (consistency == True and redundancy == True):
-                            specialized_model.append(potential_constraint)
-                            ltl_list.append(ltl_constraint)
-                            print("constraint added to specialized model")
-
-                            self.iterations.append(n+1)
-                            n = 0
-                            j += 1
-
-                        elif (consistency == False and redundancy == False):
-                            n += 1
-                            self.inconsistent_constraint +=1
-                            self.redundant_constraint +=1
-                            print("constraint not added to model")
                             if n >= stop_after: 
                                 # print("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
                                 # self.get_inconsistency()
@@ -265,64 +159,12 @@ class SpecializedModel:
                                 self.iterations.append(n+1)
                                 self.model_differs = 1                         
                                 return specialized_model
-                            else: continue 
-
-                        elif (consistency == True and redundancy == False):
-                            n += 1
-                            self.redundant_constraint +=1
-                            print("constraint not added to model")
-                            if n >= stop_after:  
-                                # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()
-                                # print(constraint_list)
-                                self.iterations.append(n+1)
-                                self.model_differs = 1
-                                return specialized_model
-                            else: continue 
-
-                        elif (consistency == False and redundancy == True):
-                            n += 1
-                            self.inconsistent_constraint +=1
-                            print("constraint not added to model")
-                            if n >= stop_after:  
-                                # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()
-                                # print(constraint_list)
-                                self.iterations.append(n+1)
-                                self.model_differs = 1
-                                return specialized_model
-                            else: continue 
-
-                        elif (consistency == None or redundancy == None):
-                            n += 1
-                            self.time_exceeded += 1
-                            print("constraint not added to model")
-                            if n >= stop_after:  
-                                # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()
-                                # print(constraint_list)
-                                self.iterations.append(n+1)
-                                self.model_differs = 1
-                                return specialized_model
-                            else: continue
-                            
-                            # return constraint_list 
+                            else: continue  
 
                         else: 
-                            n += 1 
-                            if n >= stop_after: 
-                                # self.end_model_message("No model could be created given the current input parameters. To consult the last saved model check .constraint_list.")
-                                # self.get_inconsistency()
-                                # self.get_redundancy()     
-                                # print(constraint)   
-                                self.model_differs = 1   
-                                self.iterations.append(n+1)                
-                                return specialized_model
-                            else: continue
-                    else: pass         
+                            specialized_model.append(initial_constraint)
+                            ltl_list.append(ltl_constraint)
+                            n = 0
 
         return specialized_model
 
@@ -405,6 +247,28 @@ class SpecializedModel:
         file.write(str(output))
         file.close()
 
+    def check_model_consistency(self,specialized_model_declare):
+        ltl_list = LtlList()
+        specialized_model_ltl = self.model_to_ltl(specialized_model_declare)
+        consistency = ltl_list.check_consistency_end_model(specialized_model_ltl, self.sigma, time_out=30)
 
+        if consistency == True: 
+            consistent_model = True 
+        else: 
+            consistent_model = False 
+        
+        return consistent_model     
+
+    def check_model_inredundancy(self,specialized_model_declare):
+        ltl_list = LtlList()
+        specialized_model_ltl = self.model_to_ltl(specialized_model_declare)
+        inredundancy = ltl_list.check_redundancy_end_model(specialized_model_ltl, self.sigma, time_out=30)
+
+        if inredundancy == True: 
+            inredundant_model = True 
+        else: 
+            inredundant_model = False 
+        
+        return inredundant_model     
 
 

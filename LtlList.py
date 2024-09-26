@@ -94,3 +94,34 @@ class LtlList(list):
 
         return result
     
+    def check_redundancy_end_model(self, ltl_list, sigma, time_out):
+        unpacked = sigma.top()
+        for c in ltl_list:
+            unpacked = unpacked & c
+        
+        print("Black solver started...")
+        slv = solver()
+        xi = scope(sigma)
+
+        f = unpacked # test redundancy by testing the negation of the implication
+
+        result = slv.solve(xi,~f,True,time_out)
+        print("Black solver ended...")
+
+        return result
+    
+    def check_consistency_end_model(self, ltl_list, sigma, time_out):
+        unpacked = sigma.top()
+        for c in ltl_list:
+            unpacked = unpacked & c
+        
+        print("Black solver started...")
+        slv = solver()
+        xi = scope(sigma)
+
+        f = unpacked # test consistency by testing the conjunction
+
+        result = slv.solve(xi,f,True,time_out)
+        print("Black solver ended...")
+        
+        return result

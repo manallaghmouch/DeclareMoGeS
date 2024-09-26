@@ -5,42 +5,42 @@ import random
 class Hierarchy: 
     """This class defines hierarchies between Declare constraints in terms of specialisation"""
 
-    # specialisation_candidates = {
-    # 'ChainResponse': [ChainSuccession],
-    # 'AlternateResponse': [AlternateSuccession, ChainSuccession, ChainResponse],
-    # 'Response': [AlternateResponse, ChainResponse, Succession, AlternateSuccession, ChainSuccession],
-    # 'RespondedExistence': [CoExistence, AlternateSuccession, ChainSuccession, Response, AlternateResponse, ChainResponse, Succession],
-    # 'ChainPrecedence': [ChainSuccession],
-    # 'AlternatePrecedence': [AlternateSuccession, ChainSuccession, ChainPrecedence],
-    # 'Precedence': [Init, AlternatePrecedence, ChainPrecedence, Succession, AlternateSuccession, ChainSuccession],
-    # 'AlternateSuccession': [ChainSuccession],
-    # 'Succession': [AlternateSuccession, ChainSuccession],        
-    # 'CoExistence': [Succession, AlternateSuccession, ChainSuccession],
-    # 'Absence': [Exactly], # Absence
-    # 'Existence': [Exactly], # Existence
-    # 'NotSuccession': [NotCoExistence],
-    # 'NotChainSuccession': [NotSuccession,NotCoExistence],
-    # 'ExclusiveChoice': [Choice]
-    # }
-
-    # to be compliant with Declare4PY: no succession templates
     specialisation_candidates = {
-    'Precedence': [Init, AlternatePrecedence, ChainPrecedence],
-    'Response': [AlternateResponse, ChainResponse],
-    # 'Succession': [AlternateSuccession, ChainSuccession],
-    'AlternatePrecedence': [ChainPrecedence],
-    'AlternateResponse': [ChainResponse],
-    # 'AlternateSuccession': [ChainSuccession],
-    # 'ChainPrecedence': [ChainSuccession],
-    # 'ChainResponse': [ChainSuccession],
-    'RespondedExistence': [CoExistence, Response, AlternateResponse, ChainResponse]
-    #'CoExistence': [AlternateSuccession],
-    # 'NotSuccession': [NotCoExistence],
-    # 'NotChainSuccession': [NotSuccession,NotCoExistence],
-    # 'ExclusiveChoice': [Choice],
-    # 'Absence': [Exactly], # Absence
-    # 'Existence': [Exactly] # Existence
+    'ChainResponse': [ChainSuccession],
+    'AlternateResponse': [AlternateSuccession, ChainSuccession, ChainResponse],
+    'Response': [AlternateResponse, ChainResponse, Succession, AlternateSuccession, ChainSuccession],
+    'RespondedExistence': [CoExistence, AlternateSuccession, ChainSuccession, Response, AlternateResponse, ChainResponse, Succession],
+    'ChainPrecedence': [ChainSuccession],
+    'AlternatePrecedence': [AlternateSuccession, ChainSuccession, ChainPrecedence],
+    'Precedence': [Init, AlternatePrecedence, ChainPrecedence, Succession, AlternateSuccession, ChainSuccession],
+    'AlternateSuccession': [ChainSuccession],
+    'Succession': [AlternateSuccession, ChainSuccession],        
+    'CoExistence': [Succession, AlternateSuccession, ChainSuccession],
+    'Absence': [Exactly], # Absence
+    'Existence': [Exactly], # Existence
+    'NotSuccession': [NotCoExistence],
+    'NotChainSuccession': [NotSuccession,NotCoExistence],
+    'ExclusiveChoice': [Choice]
     }
+
+    # # to be compliant with Declare4PY: no succession templates
+    # specialisation_candidates = {
+    # 'Precedence': [Init, AlternatePrecedence, ChainPrecedence],
+    # 'Response': [AlternateResponse, ChainResponse],
+    # # 'Succession': [AlternateSuccession, ChainSuccession],
+    # 'AlternatePrecedence': [ChainPrecedence],
+    # 'AlternateResponse': [ChainResponse],
+    # # 'AlternateSuccession': [ChainSuccession],
+    # # 'ChainPrecedence': [ChainSuccession],
+    # # 'ChainResponse': [ChainSuccession],
+    # 'RespondedExistence': [CoExistence, Response, AlternateResponse, ChainResponse]
+    # #'CoExistence': [AlternateSuccession],
+    # # 'NotSuccession': [NotCoExistence],
+    # # 'NotChainSuccession': [NotSuccession,NotCoExistence],
+    # # 'ExclusiveChoice': [Choice],
+    # # 'Absence': [Exactly], # Absence
+    # # 'Existence': [Exactly] # Existence
+    # }
 
     # generalisation_candidates = { 
     # 'Response': [RespondedExistence],
@@ -207,3 +207,6 @@ class Hierarchy:
         if self.generate_generalisation_candidate(constraint) == False:
             return False
         else: return True 
+
+    def delete_specialization_candidate(self, constraint, specialisation): # Delete templates drom template_list if there are no templates left: end message 
+        self.specialisation_candidates[constraint.__class__.__name__].remove(specialisation.__class__)

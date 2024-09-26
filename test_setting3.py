@@ -90,26 +90,3 @@ fields2 = [len(initial_model),
 with open(r"specialized_model{0}.csv".format(argv[1]), 'a') as f:
     writer = csv.writer(f)
     writer.writerow(fields2)
-
-# for series_name, series in df.generated_model.items():
-#     initial_model = series
-#     percentage = random.random()
-
-#     st = time.time()
-#     specialized = SpecializedModel(filename,initial_model, percentage)
-#     et = time.time()
-
-#     exec_time = et - st
-
-#     print(specialized.constraint_list)
-
-#     fields2 = [len(initial_model),  
-#                len(specialized.constraint_list),
-#                percentage,
-#                specialized.model_differs,
-#                specialized.constraint_list,
-#                exec_time]
-
-#     with open(r"specialized_model{0}.csv".format(argv[1]), 'a') as f:
-#         writer = csv.writer(f)
-#         writer.writerow(fields2)
