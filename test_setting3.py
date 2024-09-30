@@ -60,8 +60,11 @@ result2 = {
     "specialization_percentage": [],
     "model_differs": [],
     "specialized_model": [],
-    "execution_time": []
+    "execution_time": [],
+    "consistent_model": [],
+    "inredundant_model": []
 }
+
 df_result = pd.DataFrame(result2)
 
 df_result.to_csv("specialized_model{0}.csv".format(argv[1]), sep=',',index=False)
@@ -78,6 +81,9 @@ et = time.time()
 
 exec_time = et - st
 
+consistency_model = specialized.check_model_consistency(specialized.constraint_list)
+inredundancy_model = specialized.check_model_inredundancy(specialized.constraint_list)
+
 print(specialized.constraint_list)
 
 fields2 = [len(initial_model),  
@@ -85,7 +91,10 @@ fields2 = [len(initial_model),
             percentage,
             specialized.model_differs,
             specialized.constraint_list,
-            exec_time]
+            exec_time,
+            consistency_model,
+            inredundancy_model]
+
 
 with open(r"specialized_model{0}.csv".format(argv[1]), 'a') as f:
     writer = csv.writer(f)
