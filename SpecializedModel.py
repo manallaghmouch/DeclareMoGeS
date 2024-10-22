@@ -39,13 +39,13 @@ class SpecializedModel:
         constraints_fixed = subset_to_keep 
 
         for c in initial_model:
-            if hierarchy.can_be_specialised == False: 
+            if hierarchy.generate_specialisation_candidate(c) == False: 
                 constraints_fixed.append(c)
             else: pass 
 
         constraints_to_specialize = [c for c in initial_model if not c in constraints_fixed]
 
-        temp_model = initial_model
+        temp_model = ConstraintList(initial_model)
 
         ## Copy initial_model to temp_model (which we will change later on)
         # temp_model = [x for x in initial_model if not x in subset_to_keep or subset_to_keep.remove(x)]
