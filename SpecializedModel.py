@@ -84,6 +84,8 @@ class SpecializedModel:
                         self.iterations.append(n+1)
                         self.model_differs = 1                         
                         return temp_model
+                else: 
+                    temp_model.append(initial_constraint)
             else:
                 # If specialization is not possible, keep the original constraint
                 temp_model.append(initial_constraint)
