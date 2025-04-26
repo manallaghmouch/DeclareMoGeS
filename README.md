@@ -4,7 +4,7 @@
 
 STEP 1: Install BLACK (Bounded LTL Satisfiability Checker)
 
-Installation guidelines are found on https://www.black-sat.org/en/stable/installation.html
+Installation guidelines are found on https://www.black-sat.org/en/stable/installation.html \
 We refer to the zip folder "black-0.10.6-win-x64.zip" for the last tested black-sat version. You can find this folder in the DeclareMoGeS directory
 
 STEP 2: Add BLACK to PATH
